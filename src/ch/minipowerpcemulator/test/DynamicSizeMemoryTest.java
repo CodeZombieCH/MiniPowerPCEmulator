@@ -1,9 +1,11 @@
-package ch.minipowerpcemulator;
+package ch.minipowerpcemulator.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import ch.minipowerpcemulator.DynamicSizeMemory;
 
 public class DynamicSizeMemoryTest {
 	private DynamicSizeMemory instance;
