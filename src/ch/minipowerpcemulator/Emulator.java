@@ -6,7 +6,7 @@ public class Emulator implements IEmulator {
 
 	public Emulator() {
 		// Create something like a mainboard, consisting of a CPU, memory and invisible busses (references to objects)
-		memory = new Memory();
+		memory = new DynamicSizeMemory();
 		cpu = new CPU(memory); // Instance passed to the CPU represents the busses
 	}
 
