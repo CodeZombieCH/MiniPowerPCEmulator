@@ -14,7 +14,7 @@ public class CPU implements ICPU {
 		
 		this.alu = new ALU(this.memory, this.registers);
 		this.registers = new Registers();
-		this.interpreter = new OpCodeInterpreter();
+		this.interpreter = new OpCodeInterpreter(alu);
 	}
 
 	@Override

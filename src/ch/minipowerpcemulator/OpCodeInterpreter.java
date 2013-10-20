@@ -1,13 +1,15 @@
 package ch.minipowerpcemulator;
 
 public class OpCodeInterpreter implements IOpCodeInterpreter {
+	private IALU alu;
 
 	private short register;
 	private short address;
 	private short number;
 	private String command;
 
-	public OpCodeInterpreter() {
+	public OpCodeInterpreter(IALU alu) {
+		this.alu = alu;
 		register = 0;
 		address = 0;
 		number = 0;
@@ -16,6 +18,7 @@ public class OpCodeInterpreter implements IOpCodeInterpreter {
 
 	@Override
 	public void interpret(short opcode) {
+		
 		// CLR Rnr
 		if((short)(opcode & 0b1111001110000000) == (short)0b0000001010000000){
 			register = (short)(opcode & 0b0000110000000000);
