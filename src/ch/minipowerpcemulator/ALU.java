@@ -3,24 +3,16 @@ package ch.minipowerpcemulator;
 import ch.minipowerpcemulator.Registers.NamedRegister;
 
 public class ALU implements IALU {
+	private IMemory memory;
+	private IRegisters registers;
 
-private IMemory memory;
-private IRegisters registers;	
 	
-	public ALU(){
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
 	public ALU(IMemory memory, IRegisters registers) {
 		this.memory = memory;
-		this.registers = registers;			 
-	}
-	
-	public ALU(IRegisters registers){
-		this.registers = registers;
+		this.registers = registers;	 
 	}
 
+	
 	@Override
 	public boolean getCarryFlag() {
 		// TODO Auto-generated method stub

@@ -1,44 +1,41 @@
 package ch.minipowerpcemulator;
 
 public class Registers implements IRegisters {
+	private short[] registers = new short[4];
 
 	public Registers() {
-		// TODO Auto-generated constructor stub
+		
 	}
-
 	
 	public enum NamedRegister {
-		Accu,
-		R1,
-		R2,
-		R3
+		Accu(0),
+		R1(1),
+		R2(2),
+		R3(3);
+		
+		private int number;
+		
+		NamedRegister(int number) {
+			this.number = number;
+		}
+		
+		public int getNumber() {
+			return number;
+		}
 	}
 	
-
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		
 	}
-
 
 	@Override
 	public short get(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
-
-	@Override
-	public void set(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		return registers[register.number];
 	}
 	
 	@Override
 	public void set(NamedRegister register, short value) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		registers[register.number] = value;
 	}
-	
 }
