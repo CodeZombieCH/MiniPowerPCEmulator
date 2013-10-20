@@ -5,60 +5,60 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import zweierkomplement.EnumProbe;
-import zweierkomplement.EnumProbe.Day;
-
+import ch.minipowerpcemulator.DynamicSizeMemory;
 import ch.minipowerpcemulator.IALU;
 import ch.minipowerpcemulator.ALU;
+import ch.minipowerpcemulator.IMemory;
 import ch.minipowerpcemulator.IRegisters;
 import ch.minipowerpcemulator.Registers;
 import ch.minipowerpcemulator.Registers.NamedRegister;
 
 
 public class ALUTest {
-	private ALU alu;
-	private Registers registers;
+	private IMemory memory;
+	private IRegisters registers;
+	private IALU alu;
+
 
 	@Before
 	public void setUp() throws Exception {
-		alu = new ALU();
-		registers = new Registers();
-		
+		this.memory = new DynamicSizeMemory();
+		this.registers = new Registers();
+		this.alu = new ALU(memory, registers);		
 	}
 
-	
+
 	@Test
 	public void testINC()
 	{
-		registers.set(NamedRegister.Accu, 0);
+		registers.set(NamedRegister.Accu, (short)0);
 		alu.INC();
-		assertEquals((short)0b1, registers.get(Accu));
-		registers.set(Accu, 32767);
+		assertEquals((short)0b1, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)32767);
 		alu.INC();
-		assertEquals((short)-32768, registers.get(Accu));
-		registers.set(Accu, -1001);
+		assertEquals((short)-32768, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)-1001);
 		alu.INC();
-		assertEquals((short)-1000, registers.get(Accu));
-		registers.set(Accu, -1);
+		assertEquals((short)-1000, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)-1);
 		alu.INC();
-		assertEquals((short) 0, registers.get(Accu));
+		assertEquals((short)0, registers.get(NamedRegister.Accu));
 	}
 
 	@Test
 	public void testDEC()
 	{
-		registers.set(Accu, 0);
+		registers.set(NamedRegister.Accu, (short)0);
 		alu.DEC();
-		assertEquals((short) -1, registers.get(Accu));
-		registers.set(Accu, -32768);
+		assertEquals((short)-1, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)-32768);
 		alu.DEC();
-		assertEquals((short) 32767, registers.get(Accu));
-		registers.set(Accu, -1001);
+		assertEquals((short)32767, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)-1001);
 		alu.DEC();
-		assertEquals((short)-1002, registers.get(Accu));
-		registers.set(Accu, 0);
+		assertEquals((short)-1002, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)0);
 		alu.DEC();
-		assertEquals((short) -1, registers.get(Accu));
+		assertEquals((short)-1, registers.get(NamedRegister.Accu));
 	}
-
 }

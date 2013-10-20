@@ -12,7 +12,7 @@ public class CPU implements ICPU {
 	public CPU(IMemory memory) {
 		this.memory = memory;
 		
-		this.alu = new ALU();
+		this.alu = new ALU(this.memory, this.registers);
 		this.registers = new Registers();
 		this.interpreter = new OpCodeInterpreter();
 	}
