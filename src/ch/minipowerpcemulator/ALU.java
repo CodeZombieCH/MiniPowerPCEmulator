@@ -23,7 +23,7 @@ public class ALU implements IALU {
 	@Override
 	public void CLR(NamedRegister register) {
 		short i = 0;
-		registers.set(NamedRegister.Accu, i);
+		registers.set(register, i);
 		carryflag = false;
 	}
 
@@ -69,8 +69,7 @@ public class ALU implements IALU {
 
 	@Override
 	public void LWDD(NamedRegister register, short address) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		registers.set(register, address);
 	}
 
 	@Override
