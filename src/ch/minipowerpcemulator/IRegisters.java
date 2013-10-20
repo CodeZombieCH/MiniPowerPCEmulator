@@ -9,4 +9,5 @@ public interface IRegisters {
 	void initialize();
 	short get(NamedRegister register);
 	void set(NamedRegister register);
+	void set(NamedRegister register, short value);
 }

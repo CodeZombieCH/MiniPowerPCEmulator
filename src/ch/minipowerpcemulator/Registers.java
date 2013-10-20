@@ -34,4 +34,11 @@ public class Registers implements IRegisters {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
+	
+	@Override
+	public void set(NamedRegister register, short value) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+	
 }
