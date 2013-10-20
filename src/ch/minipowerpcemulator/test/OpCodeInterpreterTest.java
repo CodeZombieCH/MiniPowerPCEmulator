@@ -5,14 +5,16 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.minipowerpcemulator.IALU;
 import ch.minipowerpcemulator.OpCodeInterpreter;
 
 public class OpCodeInterpreterTest {
 	private OpCodeInterpreter instance;
+	private IALU alu;
 
 	@Before
 	public void setUp() throws Exception {
-		instance = new OpCodeInterpreter();
+		instance = new OpCodeInterpreter(alu);
 	}
 	
 	@Test
