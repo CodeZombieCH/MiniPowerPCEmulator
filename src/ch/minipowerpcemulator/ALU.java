@@ -47,7 +47,7 @@ private IRegisters registers;
 
 	@Override
 	public void INC() {
-		short i = registers.get(Accu);
+		short i = registers.get(NamedRegister.Accu);
 		if (i == 32767) { 
 			// ToDo: Set Carry-Flag to 1
 			i = -32768;
@@ -56,12 +56,12 @@ private IRegisters registers;
 			//TODO Set Carry-Flag to 0
 			i = i++;
 		}
-		registers.set(Accu, i);
+		registers.set(NamedRegister.Accu, i);
 	}
 
 	@Override
 	public void DEC() {
-		short i = registers.get(Accu);
+		short i = registers.get(NamedRegister.Accu);
 		if (i == -32768) { 
 			// TODO Set Carry-Flag to 1
 			i = 32767;
@@ -70,7 +70,7 @@ private IRegisters registers;
 			//ToDo: Set Carry-Flag to 0
 			i = i--;
 		}
-		registers.set(Accu, i);
+		registers.set(NamedRegister.Accu, i);
 	}
 
 	@Override
