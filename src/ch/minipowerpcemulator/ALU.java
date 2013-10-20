@@ -90,8 +90,7 @@ public class ALU implements IALU {
 
 	@Override
 	public void SWDD(NamedRegister register, short address) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		memory.set16Bit(address, registers.get(register));
 	}
 
 	@Override
