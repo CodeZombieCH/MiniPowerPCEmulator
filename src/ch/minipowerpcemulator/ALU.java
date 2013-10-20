@@ -15,7 +15,7 @@ public class ALU implements IALU {
 	}
 
 	@Override
-	public void CRL(NamedRegister register) {
+	public void CLR(NamedRegister register) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
