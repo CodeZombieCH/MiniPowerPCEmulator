@@ -29,14 +29,30 @@ public class ALU implements IALU {
 
 	@Override
 	public void ADD(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(NamedRegister.Accu);
+		short j = registers.get(register);
+		if (i+j < 32767 && i+j > -32768){
+			registers.set(NamedRegister.Accu, (short)(i+j));
+			carryflag = false;
+		}
+		else{
+			registers.set(NamedRegister.Accu, (short)32767);
+			carryflag = true;
+		}
 	}
 
 	@Override
 	public void ADDD(short number) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(NamedRegister.Accu);
+		short j = number;
+		if (i+j < 32767 && i+j > -32768){
+			registers.set(NamedRegister.Accu, (short)(i+j));
+			carryflag = false;
+		}
+		else{
+			registers.set(NamedRegister.Accu, (short)32767);
+			carryflag = true;
+		}
 	}
 
 	@Override
