@@ -64,7 +64,7 @@ public class ALU implements IALU {
 		}
 		else {
 			carryflag = false;
-			i = i++;
+			i++;
 		}
 		registers.set(NamedRegister.Accu, i);
 	}
@@ -78,7 +78,7 @@ public class ALU implements IALU {
 		}
 		else {
 			carryflag = false;
-			i = i--;
+			i--;
 		}
 		registers.set(NamedRegister.Accu, i);
 	}
