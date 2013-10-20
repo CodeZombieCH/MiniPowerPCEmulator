@@ -3,9 +3,22 @@ package ch.minipowerpcemulator;
 import ch.minipowerpcemulator.Registers.NamedRegister;
 
 public class ALU implements IALU {
+
+private IMemory memory;
+private IRegisters registers;	
 	
-	public ALU() {
-		// TODO Auto-generated constructor stub
+	public ALU(){
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	public ALU(IMemory memory, IRegisters registers) {
+		this.memory = memory;
+		this.registers = registers;			 
+	}
+	
+	public ALU(IRegisters registers){
+		this.registers = registers;
 	}
 
 	@Override
@@ -15,7 +28,7 @@ public class ALU implements IALU {
 	}
 
 	@Override
-	public void CRL(NamedRegister register) {
+	public void CLR(NamedRegister register) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -34,14 +47,30 @@ public class ALU implements IALU {
 
 	@Override
 	public void INC() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(Accu);
+		if (i == 32767) { 
+			// ToDo: Set Carry-Flag to 1
+			i = -32768;
+		}
+		else {
+			//TODO Set Carry-Flag to 0
+			i = i++;
+		}
+		registers.set(Accu, i);
 	}
 
 	@Override
 	public void DEC() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(Accu);
+		if (i == -32768) { 
+			// TODO Set Carry-Flag to 1
+			i = 32767;
+		}
+		else {
+			//ToDo: Set Carry-Flag to 0
+			i = i--;
+		}
+		registers.set(Accu, i);
 	}
 
 	@Override

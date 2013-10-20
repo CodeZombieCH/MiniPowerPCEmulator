@@ -11,7 +11,7 @@ public interface IALU {
 	
 	boolean getCarryFlag();
 	
-	void CRL(NamedRegister register);
+	void CLR(NamedRegister register);
 	void ADD(NamedRegister register);
 	void ADDD(short number);
 	void INC();
