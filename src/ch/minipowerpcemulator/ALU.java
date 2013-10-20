@@ -2,10 +2,12 @@ package ch.minipowerpcemulator;
 
 import ch.minipowerpcemulator.Registers.NamedRegister;
 
+
+
 public class ALU implements IALU {
 	private IMemory memory;
 	private IRegisters registers;
-
+	private boolean carryflag = false;
 	
 	public ALU(IMemory memory, IRegisters registers) {
 		this.memory = memory;
@@ -15,14 +17,14 @@ public class ALU implements IALU {
 	
 	@Override
 	public boolean getCarryFlag() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		return carryflag;
 	}
 
 	@Override
 	public void CLR(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = 0;
+		registers.set(NamedRegister.Accu, i);
+		carryflag = false;
 	}
 
 	@Override
@@ -41,11 +43,11 @@ public class ALU implements IALU {
 	public void INC() {
 		short i = registers.get(NamedRegister.Accu);
 		if (i == 32767) { 
-			// ToDo: Set Carry-Flag to 1
+			carryflag = true;
 			i = -32768;
 		}
 		else {
-			//TODO Set Carry-Flag to 0
+			carryflag = false;
 			i = i++;
 		}
 		registers.set(NamedRegister.Accu, i);
@@ -55,11 +57,11 @@ public class ALU implements IALU {
 	public void DEC() {
 		short i = registers.get(NamedRegister.Accu);
 		if (i == -32768) { 
-			// TODO Set Carry-Flag to 1
+			carryflag = true;
 			i = 32767;
 		}
 		else {
-			//ToDo: Set Carry-Flag to 0
+			carryflag = false;
 			i = i--;
 		}
 		registers.set(NamedRegister.Accu, i);
