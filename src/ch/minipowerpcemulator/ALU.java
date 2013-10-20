@@ -119,20 +119,23 @@ public class ALU implements IALU {
 
 	@Override
 	public void AND(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(NamedRegister.Accu);
+		short j = registers.get(register);
+		registers.set(NamedRegister.Accu, (short)(i&j));
+		
 	}
 
 	@Override
 	public void OR(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(NamedRegister.Accu);
+		short j = registers.get(register);
+		registers.set(NamedRegister.Accu, (short)(i|j));
 	}
 
 	@Override
 	public void NOT() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(NamedRegister.Accu);
+		registers.set(NamedRegister.Accu, (short)(~i));
 	}
 
 	@Override
