@@ -32,7 +32,9 @@ public class ALUTest {
 	public void testINC()
 	{
 		registers.set(NamedRegister.Accu, (short)0);
+		System.out.println(registers.get(NamedRegister.Accu));
 		alu.INC();
+		System.out.println(registers.get(NamedRegister.Accu));
 		assertEquals((short)0b1, registers.get(NamedRegister.Accu));
 		registers.set(NamedRegister.Accu, (short)32767);
 		alu.INC();
