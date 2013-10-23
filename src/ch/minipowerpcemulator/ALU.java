@@ -5,11 +5,13 @@ import ch.minipowerpcemulator.Registers.NamedRegister;
 
 
 public class ALU implements IALU {
+	private ICPU cpu;
 	private IMemory memory;
 	private IRegisters registers;
 	private boolean carryflag = false;
 	
-	public ALU(IMemory memory, IRegisters registers) {
+	public ALU(ICPU cpu, IMemory memory, IRegisters registers) {
+		this.cpu = cpu;
 		this.memory = memory;
 		this.registers = registers;	 
 	}

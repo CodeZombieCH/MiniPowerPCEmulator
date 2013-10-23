@@ -5,9 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.minipowerpcemulator.CPU;
 import ch.minipowerpcemulator.DynamicSizeMemory;
 import ch.minipowerpcemulator.IALU;
 import ch.minipowerpcemulator.ALU;
+import ch.minipowerpcemulator.ICPU;
 import ch.minipowerpcemulator.IMemory;
 import ch.minipowerpcemulator.IRegisters;
 import ch.minipowerpcemulator.Registers;
@@ -16,6 +18,7 @@ import ch.minipowerpcemulator.Registers.NamedRegister;
 
 public class ALUTest {
 	private IMemory memory;
+	private ICPU cpu;
 	private IRegisters registers;
 	private IALU alu;
 
@@ -23,8 +26,9 @@ public class ALUTest {
 	@Before
 	public void setUp() throws Exception {
 		this.memory = new DynamicSizeMemory();
+		this.cpu = new CPU(this.memory);
 		this.registers = new Registers();
-		this.alu = new ALU(memory, registers);		
+		this.alu = new ALU(this.cpu, this.memory, this.registers);		
 	}
 
 

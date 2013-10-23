@@ -6,8 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.minipowerpcemulator.ALU;
+import ch.minipowerpcemulator.CPU;
 import ch.minipowerpcemulator.DynamicSizeMemory;
 import ch.minipowerpcemulator.IALU;
+import ch.minipowerpcemulator.IMemory;
 import ch.minipowerpcemulator.OpCodeInterpreter;
 import ch.minipowerpcemulator.Registers;
 
@@ -17,7 +19,8 @@ public class OpCodeInterpreterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		alu = new ALU(new DynamicSizeMemory(), new Registers());
+		IMemory memory = new DynamicSizeMemory();
+		alu = new ALU(new CPU(memory), memory, new Registers());
 		instance = new OpCodeInterpreter(alu);
 	}
 

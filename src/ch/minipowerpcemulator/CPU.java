@@ -5,15 +5,21 @@ public class CPU implements ICPU {
 	private IALU alu;
 	private IRegisters registers;
 	private IOpCodeInterpreter interpreter;
-	
+
+	/**
+	 * Holds the memory address of the next instruction that would be executed.
+	 * Is incremented right after fetching an instruction.
+	 */
 	private short programCounter;
+	/**
+	 * The instruction register holds the instruction currently being decoded or executed
+	 */
 	private short instructionRegister;
 
 	public CPU(IMemory memory) {
 		this.memory = memory;
-		
-		this.alu = new ALU(this.memory, this.registers);
 		this.registers = new Registers();
+		this.alu = new ALU(this, this.memory, this.registers);
 		this.interpreter = new OpCodeInterpreter(alu);
 	}
 
@@ -37,4 +43,23 @@ public class CPU implements ICPU {
 				Sprung-Befehls um einen anderen Wert verändert
 		 */
 	}
+
+	public short getProgramCounter() {
+		return programCounter;
+	}
+
+	public void setProgramCounter(short programCounter) {
+		this.programCounter = programCounter;
+	}
+
+	public short getInstructionRegister() {
+		return instructionRegister;
+	}
+
+	/*
+	 * Only necessary when implementing interactive mode
+	public void setInstructionRegister(short instructionRegister) {
+		this.instructionRegister = instructionRegister;
+	}
+	*/
 }
