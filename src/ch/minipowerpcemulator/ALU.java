@@ -95,26 +95,53 @@ public class ALU implements IALU {
 
 	@Override
 	public void SRA() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(NamedRegister.Accu);
+		if ((short)(i & 0b1) == (short)0b1)
+			carryflag = true;
+		else
+			carryflag = false;
+		i >>= 1;
+		registers.set(NamedRegister.Accu, i);
 	}
 
 	@Override
 	public void SLA() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(NamedRegister.Accu);
+		if ((short)(i & 0b0100000000000000) == (short)0b0100000000000000)
+			carryflag = true;
+		else
+			carryflag = false;
+		if (i < 0){
+			i <<= 1;
+			i |= (1 << 15);
+		}
+		else{
+			i <<= 1;
+			i &= ~(1 << 15);
+		}
+		registers.set(NamedRegister.Accu, i);
 	}
 
 	@Override
 	public void SRL() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(NamedRegister.Accu);
+		if ((short)(i & 0b1) == (short)0b1)
+			carryflag = true;
+		else
+			carryflag = false;
+		i >>>= 1;
+		registers.set(NamedRegister.Accu, i);
 	}
 
 	@Override
 	public void SLL() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		short i = registers.get(NamedRegister.Accu);
+		if ((short)(i & 0b1000000000000000) == (short)0b1000000000000000)
+			carryflag = true;
+		else
+			carryflag = false;
+		i <<= 1;
+		registers.set(NamedRegister.Accu, i);
 	}
 
 	@Override
