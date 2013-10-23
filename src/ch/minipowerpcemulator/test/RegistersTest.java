@@ -26,7 +26,16 @@ public class RegistersTest {
 
 	@Test
 	public void testGet() {
-		fail("Not yet implemented");
+		Registers registers = new Registers();
+		registers.initialize();
+		
+		short expected = (short)0b10101010;
+		registers.set(NamedRegister.R1, expected);
+		assertEquals(expected, registers.get(NamedRegister.R1));
+		
+		expected = (short)0b01010101;
+		registers.set(NamedRegister.R1, expected);
+		assertEquals(expected, registers.get(NamedRegister.R1));
 	}
 
 	@Test
