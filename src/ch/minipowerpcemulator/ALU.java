@@ -169,49 +169,53 @@ public class ALU implements IALU {
 
 	@Override
 	public void BZ(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (registers.get(NamedRegister.Accu) == (short)0){
+			cpu.setProgramCounter(registers.get(register));
+		}
 	}
-
+	
 	@Override
 	public void BNZ(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (registers.get(NamedRegister.Accu) != (short)0){
+			cpu.setProgramCounter(registers.get(register));
+		}
 	}
 
 	@Override
 	public void BC(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (carryflag == true){
+			cpu.setProgramCounter(registers.get(register));
+		}
 	}
 
 	@Override
 	public void B(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		cpu.setProgramCounter(registers.get(register));
 	}
 
 	@Override
 	public void BZD(short address) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (registers.get(NamedRegister.Accu) == (short)0){
+			cpu.setProgramCounter(address);
+		}
 	}
 
 	@Override
 	public void BNZD(short address) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (registers.get(NamedRegister.Accu) != (short)0){
+			cpu.setProgramCounter(address);
+		}
 	}
 
 	@Override
 	public void BCD(short address) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (carryflag == true){
+			cpu.setProgramCounter(address);
+		}
 	}
 
 	@Override
 	public void BD(short address) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		cpu.setProgramCounter(address);
 	}
 }
