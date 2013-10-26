@@ -8,13 +8,13 @@ public class CPU implements ICPU {
 
 	/**
 	 * Holds the memory address of the next instruction that would be executed.
-	 * Is incremented right after fetching an instruction.
 	 */
 	private short programCounter;
 	/**
 	 * The instruction register holds the instruction currently being decoded or executed
 	 */
 	private short instructionRegister;
+	
 
 	public CPU(IMemory memory) {
 		this.memory = memory;
@@ -24,32 +24,50 @@ public class CPU implements ICPU {
 	}
 
 	@Override
-	public void executeSingle() {
-		// TODO Auto-generated method stub
+	public boolean runSingleCycle() {
 		
 		/*
-			„Programmablauf“:
-			1.	Der aktuelle Befehl wird aus der Speicherzelle, auf die der
-				Befehlszähler zeigt, ausgelesen und in das Steuerwerk
-				übertragen
-			2.	Das Steuerwerk dekodiert den Befehl und schaltet die entsprechenden
-				Signale auf den Steuerleitungen
-			3.	Die für den Befehl erforderlichen Operanden werden aus dem
-				Speicherwerk gelesen und in das Rechenwerk bzw. die festgelegten
-				Register übertragen
-			4.	Die dekodierte Operation wird ausgeführt; das Ergebnis in ein
-				Register (oder den Speicher) geschrieben
-			5.	Der Befehlszähler wird um eins erhöht oder auf Grund eines
-				Sprung-Befehls um einen anderen Wert verändert
+		1.	Der aktuelle Befehl wird aus der Speicherzelle, auf die der
+			Befehlszähler zeigt, ausgelesen und in das Steuerwerk übertragen
+		*/
+		// FETCH
+		instructionRegister = memory.get16Bit(programCounter);
+		// Increment program counter (according to the German Wikipedia article)
+		// Increment by 2 (word size is 16bit, address granularity is 8bit --> 8 * 2)
+		programCounter += 2;
+
+		/*
+		2.	Das Steuerwerk dekodiert den Befehl und schaltet die entsprechenden
+			Signale auf den Steuerleitungen
+		3.	Die für den Befehl erforderlichen Operanden werden aus dem
+			Speicherwerk gelesen und in das Rechenwerk bzw. die festgelegten Register übertragen
+		4.	Die dekodierte Operation wird ausgeführt; das Ergebnis in ein
+			Register (oder den Speicher) geschrieben
+		*/
+		// DECODE, FETCH OPERANDS, EXECUTE und UPDATE INSTRUCTION POINTER
+		return interpreter.interpret(instructionRegister);
+
+		/*
+		5.	Der Befehlszähler wird um eins erhöht oder auf Grund eines
+			Sprung-Befehls um einen anderen Wert verändert
 		 */
+		// Different approach described in 1.
 	}
 
+	@Override
 	public short getProgramCounter() {
 		return programCounter;
 	}
 
+	@Override
 	public void setProgramCounter(short programCounter) {
 		this.programCounter = programCounter;
+	}
+	
+	@Override
+	public void incrementProgramCounter() {
+		// Increment by 2 (word size is 16bit, address granularity is 8bit --> 8 * 2)
+		programCounter += 2;
 	}
 
 	public short getInstructionRegister() {

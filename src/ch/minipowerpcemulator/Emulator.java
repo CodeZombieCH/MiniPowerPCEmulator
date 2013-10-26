@@ -15,10 +15,14 @@ public class Emulator implements IEmulator {
 	public Emulator() {
 		// Create something like a mainboard, consisting of a CPU, memory and invisible busses (references to objects)
 		memory = new DynamicSizeMemory();
+		memory.initialize();
+		
 		cpu = new CPU(memory); // Instance passed to the CPU represents the busses
+
+		cpu.setProgramCounter((short)100);
 	}
 
-	
+		
 	@Override
 	public void loadProgram(String fileName) throws IOException, Exception {
 		Path path = Paths.get("programs/" + fileName + ".bin");
@@ -60,8 +64,10 @@ public class Emulator implements IEmulator {
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		// CPU loop
+		while(cpu.runSingleCycle()) {
+			
+		}
 	}
 
 	

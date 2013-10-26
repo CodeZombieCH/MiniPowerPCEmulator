@@ -19,7 +19,7 @@ public class OpCodeInterpreter implements IOpCodeInterpreter {
 	}
 
 	@Override
-	public void interpret(short opcode) {
+	public boolean interpret(short opcode) {
 		
 		// CLR Rnr
 		if((short)(opcode & 0b1111001110000000) == (short)0b0000001010000000){
@@ -183,7 +183,16 @@ public class OpCodeInterpreter implements IOpCodeInterpreter {
 		// END
 		if((short)(opcode & 0b1111111111111111) == (short)0b0000000000000000){
 			command = "END";
+			// Return false to notify the emulator to terminate
+			System.out.println("END: Reached the end of the program");
+			
+			return false;
 		}
+		
+		// DEBUG
+		System.out.println(command);
+		
+		return true;
 	}
 	
 	public short getRegister(){
