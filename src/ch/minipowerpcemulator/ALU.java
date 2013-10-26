@@ -85,7 +85,7 @@ public class ALU implements IALU {
 
 	@Override
 	public void LWDD(NamedRegister register, short address) {
-		registers.set(register, address);
+		registers.set(register, memory.get16Bit(address));
 	}
 
 	@Override

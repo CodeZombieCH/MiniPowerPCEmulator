@@ -180,6 +180,24 @@ public class ALUTest {
 		assertEquals((false), alu.getCarryFlag());
 	}
 	
+	
+
+	@Test
+	public void testLWDD() {
+		memory.set16Bit((short)800, (short)2345);
+		alu.LWDD(NamedRegister.Accu, (short)800);
+		assertEquals((short)2345, registers.get(NamedRegister.Accu));
+	}
+	
+	@Test
+	public void testSWDD() {
+		registers.set(NamedRegister.Accu, (short)4545);
+		alu.SWDD(NamedRegister.Accu, (short)900);
+		assertEquals((short)4545, memory.get16Bit((short)900));
+		
+	}
+	
+	
 	@Test
 	public void testSRA()
 	{
