@@ -183,14 +183,14 @@ public class ALU implements IALU {
 
 	@Override
 	public void BC(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (carryflag == true){
+			cpu.setProgramCounter(registers.get(register));
+		}
 	}
 
 	@Override
 	public void B(NamedRegister register) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		cpu.setProgramCounter(registers.get(register));
 	}
 
 	@Override

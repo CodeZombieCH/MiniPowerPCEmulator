@@ -365,4 +365,29 @@ public class ALUTest {
 		assertEquals((short)100, cpu.getProgramCounter());
 		
 	}
+	
+	@Test
+	public void testBC() {
+		cpu.setProgramCounter((short)100);
+		registers.set(NamedRegister.R1, (short)200);
+		registers.set(NamedRegister.Accu, (short)32767);
+		alu.INC();
+		alu.BC(NamedRegister.R1);
+		assertEquals((short)200, cpu.getProgramCounter());
+		cpu.setProgramCounter((short)100);
+		registers.set(NamedRegister.R1, (short)200);
+		registers.set(NamedRegister.Accu, (short)66);
+		alu.INC();
+		alu.BC(NamedRegister.R1);
+		assertEquals((short)100, cpu.getProgramCounter());	
+	}
+	
+	@Test
+	public void testB() {
+		cpu.setProgramCounter((short)100);
+		registers.set(NamedRegister.R1, (short)200);
+		alu.B(NamedRegister.R1);
+		assertEquals((short)200, cpu.getProgramCounter());
+	}
+	
 }
