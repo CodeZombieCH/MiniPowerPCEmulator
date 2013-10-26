@@ -144,15 +144,19 @@ public class ALUTest {
 		registers.set(NamedRegister.Accu, (short)0);
 		alu.INC();
 		assertEquals((short)0b1, registers.get(NamedRegister.Accu));
+		assertEquals((false), alu.getCarryFlag());
 		registers.set(NamedRegister.Accu, (short)32767);
 		alu.INC();
 		assertEquals((short)-32768, registers.get(NamedRegister.Accu));
+		assertEquals((true), alu.getCarryFlag());
 		registers.set(NamedRegister.Accu, (short)-1001);
 		alu.INC();
 		assertEquals((short)-1000, registers.get(NamedRegister.Accu));
+		assertEquals((false), alu.getCarryFlag());
 		registers.set(NamedRegister.Accu, (short)-1);
 		alu.INC();
 		assertEquals((short)0, registers.get(NamedRegister.Accu));
+		assertEquals((false), alu.getCarryFlag());
 	}
 
 	@Test
