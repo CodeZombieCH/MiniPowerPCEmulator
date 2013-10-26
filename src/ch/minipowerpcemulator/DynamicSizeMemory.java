@@ -12,8 +12,8 @@ public class DynamicSizeMemory implements IMemory {
 
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		// Set the whole memory to zeros.
+		// Not required in this dynamic implementation
 	}
 
 	@Override
