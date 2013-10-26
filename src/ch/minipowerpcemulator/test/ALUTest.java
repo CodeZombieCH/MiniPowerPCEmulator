@@ -27,6 +27,43 @@ public class ALUTest {
 		this.alu = new ALU(memory, registers);		
 	}
 
+	
+	@Test
+	public void testCLR() {
+		registers.set(NamedRegister.Accu, (short)0b1111111111111111);
+		registers.set(NamedRegister.R1, (short)0b1111111111111111);
+		registers.set(NamedRegister.R2, (short)0b1111111111111111);
+		registers.set(NamedRegister.R3, (short)0b1111111111111111);
+		alu.CLR(NamedRegister.Accu);
+		assertEquals((short)0, registers.get(NamedRegister.Accu));
+		assertEquals((false), alu.getCarryFlag());
+		alu.CLR(NamedRegister.R1);
+		assertEquals((short)0, registers.get(NamedRegister.R1));
+		assertEquals((false), alu.getCarryFlag());
+		alu.CLR(NamedRegister.R2);
+		assertEquals((short)0, registers.get(NamedRegister.R2));
+		assertEquals((false), alu.getCarryFlag());
+		alu.CLR(NamedRegister.R3);
+		assertEquals((short)0, registers.get(NamedRegister.R3));
+		assertEquals((false), alu.getCarryFlag());
+		registers.set(NamedRegister.Accu, (short)0);
+		registers.set(NamedRegister.R1, (short)0);
+		registers.set(NamedRegister.R2, (short)0);
+		registers.set(NamedRegister.R3, (short)0);
+		alu.CLR(NamedRegister.Accu);
+		assertEquals((short)0, registers.get(NamedRegister.Accu));
+		assertEquals((false), alu.getCarryFlag());
+		alu.CLR(NamedRegister.R1);
+		assertEquals((short)0, registers.get(NamedRegister.R1));
+		assertEquals((false), alu.getCarryFlag());
+		alu.CLR(NamedRegister.R2);
+		assertEquals((short)0, registers.get(NamedRegister.R2));
+		assertEquals((false), alu.getCarryFlag());
+		alu.CLR(NamedRegister.R3);
+		assertEquals((short)0, registers.get(NamedRegister.R3));
+		assertEquals((false), alu.getCarryFlag());
+	}
+	
 	@Test
 	public void testADD() {
 		registers.set(NamedRegister.Accu, (short)0);
