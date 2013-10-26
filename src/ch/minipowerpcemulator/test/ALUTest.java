@@ -335,4 +335,34 @@ public class ALUTest {
 		alu.NOT();
 		assertEquals((short)0, registers.get(NamedRegister.Accu));
 	}
+	
+	@Test
+	public void testBZ () {
+		cpu.setProgramCounter((short)100);
+		registers.set(NamedRegister.Accu, (short)0);
+		registers.set(NamedRegister.R1, (short)200);
+		alu.BZ(NamedRegister.R1);
+		assertEquals((short)200, cpu.getProgramCounter());
+		cpu.setProgramCounter((short)100);
+		registers.set(NamedRegister.Accu, (short)626);
+		registers.set(NamedRegister.R1, (short)200);
+		alu.BZ(NamedRegister.R1);
+		assertEquals((short)100, cpu.getProgramCounter());
+		
+	}
+	
+	@Test
+	public void testBNZ () {
+		cpu.setProgramCounter((short)100);
+		registers.set(NamedRegister.Accu, (short)66);
+		registers.set(NamedRegister.R1, (short)200);
+		alu.BNZ(NamedRegister.R1);
+		assertEquals((short)200, cpu.getProgramCounter());
+		cpu.setProgramCounter((short)100);
+		registers.set(NamedRegister.Accu, (short)0);
+		registers.set(NamedRegister.R1, (short)200);
+		alu.BNZ(NamedRegister.R1);
+		assertEquals((short)100, cpu.getProgramCounter());
+		
+	}
 }
