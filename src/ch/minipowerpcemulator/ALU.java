@@ -195,25 +195,27 @@ public class ALU implements IALU {
 
 	@Override
 	public void BZD(short address) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (registers.get(NamedRegister.Accu) == (short)0){
+			cpu.setProgramCounter(address);
+		}
 	}
 
 	@Override
 	public void BNZD(short address) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (registers.get(NamedRegister.Accu) != (short)0){
+			cpu.setProgramCounter(address);
+		}
 	}
 
 	@Override
 	public void BCD(short address) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (carryflag == true){
+			cpu.setProgramCounter(address);
+		}
 	}
 
 	@Override
 	public void BD(short address) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not yet implemented");
+		cpu.setProgramCounter(address);
 	}
 }
