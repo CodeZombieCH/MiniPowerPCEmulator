@@ -285,4 +285,50 @@ public class ALUTest {
 		assertEquals(false, alu.getCarryFlag());
 		assertEquals((short)0b1000000000001000, registers.get(NamedRegister.Accu));
 	}
+
+	
+	@Test
+	public void testAND () {
+		registers.set(NamedRegister.Accu, (short)0b0);
+		registers.set(NamedRegister.R1, (short)0b1111111111111111);
+		alu.AND(NamedRegister.R1);
+		assertEquals((short)0b0, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)0b0101010101010101);
+		registers.set(NamedRegister.R1, (short)0b1111111111111111);
+		alu.AND(NamedRegister.R1);
+		assertEquals((short)0b0101010101010101, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)0b0101010101010101);
+		registers.set(NamedRegister.R1, (short)0b1010101010101010);
+		alu.AND(NamedRegister.R1);
+		assertEquals((short)0b0, registers.get(NamedRegister.Accu));
+	}
+	
+	@Test
+	public void testOR () {
+		registers.set(NamedRegister.Accu, (short)0b0);
+		registers.set(NamedRegister.R1, (short)0b1111111111111111);
+		alu.OR(NamedRegister.R1);
+		assertEquals((short)0b1111111111111111, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)0b0101010101010101);
+		registers.set(NamedRegister.R1, (short)0b1111111111111111);
+		alu.OR(NamedRegister.R1);
+		assertEquals((short)0b1111111111111111, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)0b0101010101010101);
+		registers.set(NamedRegister.R1, (short)0b1010101010101010);
+		alu.OR(NamedRegister.R1);
+		assertEquals((short)0b1111111111111111, registers.get(NamedRegister.Accu));
+	}
+	
+	@Test
+	public void testNOT () {
+		registers.set(NamedRegister.Accu, (short)0b0);
+		alu.NOT();
+		assertEquals((short)0b1111111111111111, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)0b0101010101010101);
+		alu.NOT();
+		assertEquals((short)0b1010101010101010, registers.get(NamedRegister.Accu));
+		registers.set(NamedRegister.Accu, (short)0b1111111111111111);
+		alu.NOT();
+		assertEquals((short)0, registers.get(NamedRegister.Accu));
+	}
 }
