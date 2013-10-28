@@ -2,18 +2,23 @@ package ch.minipowerpc.emulator.ui;
 
 import javax.swing.table.AbstractTableModel;
 
+import ch.minipowerpc.emulator.IOpCodeInterpreter;
+import ch.minipowerpc.emulator.OpCodeInterpreter;
 import ch.minipowerpc.emulator.Utilities;
+import ch.minipowerpc.emulator.instructions.IInstruction;
 
 public class InstructionMemoryTableModel extends AbstractTableModel {	
 	private static final long serialVersionUID = -1473270879765061250L;
 	
 	private IEmulatorModel emulatorModel;
+	private IOpCodeInterpreter opCodeInterpreter;
 	private String[] columnNames = new String[] { "#", "OpCode", "Mnemonic" };
 	private int base = 2;
 	
 	
 	public InstructionMemoryTableModel(IEmulatorModel emulatorModel) {
 		this.emulatorModel = emulatorModel;
+		this.opCodeInterpreter = new OpCodeInterpreter(null);
 	}
 	
 	public int getColumnCount() {
@@ -41,7 +46,13 @@ public class InstructionMemoryTableModel extends AbstractTableModel {
     		return convertValue(emulatorModel.getMemory().get16Bit((short)(emulatorModel.getConfiguration().getInstructionRangeFrom() + row*2)));
     	}
     	else if(column == 2) {
-    		return "n/a";
+    		IInstruction instruction = opCodeInterpreter.interpret(emulatorModel.getMemory().get16Bit((short)(emulatorModel.getConfiguration().getInstructionRangeFrom() + row*2)));
+    		if(instruction != null) {
+    			return instruction.toString();
+    		}
+    		else {
+    			return "n/a";
+    		}
     	}
     	
     	return null;

@@ -1,5 +1,7 @@
 package ch.minipowerpc.emulator;
 
+import ch.minipowerpc.emulator.instructions.IInstruction;
+
 public class CPU implements ICPU {
 	private IMemory memory;
 	private IALU alu;
@@ -50,8 +52,10 @@ public class CPU implements ICPU {
 			Register (oder den Speicher) geschrieben
 		*/
 		// DECODE, FETCH OPERANDS, EXECUTE und UPDATE INSTRUCTION POINTER
-		return interpreter.interpret(instructionRegister);
-
+		IInstruction instruction = interpreter.interpret(instructionRegister);
+		//System.out.println(instruction);
+		return instruction.run();
+		
 		/*
 		5.	Der Befehlszähler wird um eins erhöht oder auf Grund eines
 			Sprung-Befehls um einen anderen Wert verändert
