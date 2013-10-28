@@ -28,7 +28,11 @@ public class DynamicSizeMemory implements IMemory {
 				memory.add(defaultValue);
 		}
 		
-		return (short)((memory.get(address) & 0xff) | (memory.get(address + 1) << 8));
+		// Little endian
+		//return (short)((memory.get(address) & 0xff) | (memory.get(address + 1) << 8));
+		
+		// Big endian
+		return (short)((memory.get(address) << 8) | (memory.get(address + 1) & 0xff));
 	}
 
 	@Override
@@ -43,9 +47,14 @@ public class DynamicSizeMemory implements IMemory {
 				memory.add(defaultValue);
 		}
 		
+		// Little endian
+		//memory.set(address, (byte)(value & 0xff));
+		//memory.set(address + 1, (byte)((value >> 8) & 0xff));
 		
-		memory.set(address, (byte)(value & 0xff));
-		memory.set(address + 1, (byte)((value >> 8) & 0xff));
+		// Big endian
+		memory.set(address, (byte)((value >> 8) & 0xff));
+		memory.set(address + 1, (byte)(value & 0xff));
+
 	}
 
 	@Override
