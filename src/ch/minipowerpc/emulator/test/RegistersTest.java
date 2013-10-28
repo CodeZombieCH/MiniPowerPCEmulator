@@ -1,12 +1,12 @@
-package ch.minipowerpcemulator.test;
+package ch.minipowerpc.emulator.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.minipowerpcemulator.Registers;
-import ch.minipowerpcemulator.Registers.NamedRegister;
+import ch.minipowerpc.emulator.Registers;
+import ch.minipowerpc.emulator.Registers.NamedRegister;
 
 public class RegistersTest {
 	@Before

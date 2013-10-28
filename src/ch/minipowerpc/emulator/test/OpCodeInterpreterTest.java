@@ -1,17 +1,17 @@
-package ch.minipowerpcemulator.test;
+package ch.minipowerpc.emulator.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.minipowerpcemulator.ALU;
-import ch.minipowerpcemulator.CPU;
-import ch.minipowerpcemulator.DynamicSizeMemory;
-import ch.minipowerpcemulator.IALU;
-import ch.minipowerpcemulator.IMemory;
-import ch.minipowerpcemulator.OpCodeInterpreter;
-import ch.minipowerpcemulator.Registers;
+import ch.minipowerpc.emulator.ALU;
+import ch.minipowerpc.emulator.CPU;
+import ch.minipowerpc.emulator.DynamicSizeMemory;
+import ch.minipowerpc.emulator.IALU;
+import ch.minipowerpc.emulator.IMemory;
+import ch.minipowerpc.emulator.OpCodeInterpreter;
+import ch.minipowerpc.emulator.Registers;
 
 public class OpCodeInterpreterTest {
 	private OpCodeInterpreter instance;

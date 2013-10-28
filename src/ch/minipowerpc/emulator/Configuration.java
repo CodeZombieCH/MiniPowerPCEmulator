@@ -1,4 +1,4 @@
-package ch.minipowerpcemulator;
+package ch.minipowerpc.emulator;
 
 public class Configuration {
 	private short instructionRangeFrom = 100;

@@ -1,6 +1,6 @@
-package ch.minipowerpcemulator;
+package ch.minipowerpc.emulator;
 
-import ch.minipowerpcemulator.Registers.NamedRegister;
+import ch.minipowerpc.emulator.Registers.NamedRegister;
 
 public class OpCodeInterpreter implements IOpCodeInterpreter {
 	private IALU alu;

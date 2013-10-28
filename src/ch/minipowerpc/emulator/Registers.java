@@ -1,4 +1,4 @@
-package ch.minipowerpcemulator;
+package ch.minipowerpc.emulator;
 
 public class Registers implements IRegisters {
 	private short[] registers = new short[4];

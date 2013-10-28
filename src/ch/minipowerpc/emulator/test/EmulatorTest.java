@@ -1,12 +1,12 @@
-package ch.minipowerpcemulator.test;
+package ch.minipowerpc.emulator.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.minipowerpcemulator.Emulator;
-import ch.minipowerpcemulator.IMemory;
+import ch.minipowerpc.emulator.Emulator;
+import ch.minipowerpc.emulator.IMemory;
 
 public class EmulatorTest {
 
