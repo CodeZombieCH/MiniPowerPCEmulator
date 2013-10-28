@@ -1,6 +1,9 @@
 package ch.minipowerpc.emulator.ui;
 
+import java.util.List;
 import java.util.Observable;
+
+import javax.swing.SwingWorker;
 
 import ch.minipowerpc.emulator.Configuration;
 import ch.minipowerpc.emulator.IALU;
@@ -18,9 +21,12 @@ public class EmulatorModel extends Observable implements IEmulatorModel {
 	private IALU alu;
 	
 	private int base = 10;
+	private boolean isRunning = false;
+	
+	private SwingWorker<Boolean, Void> worker;
 
 	
-	public EmulatorModel(IEmulator emulator) {
+	public EmulatorModel(final IEmulator emulator) {
 		if(emulator == null) throw new NullPointerException("Must pass an instantiated instance of emulator");
 		
 		this.emulator = emulator;
@@ -36,35 +42,67 @@ public class EmulatorModel extends Observable implements IEmulatorModel {
 
 	@Override
 	public void run() {
-		// CPU loop
-		while(emulator.runSingleCycle()) {
+		// Create new worker (as they are not designed to be reused)
+		worker = new SwingWorker<Boolean, Void>() {
+
+			@Override
+			protected Boolean doInBackground() throws Exception {
+				// CPU loop
+				while(emulator.runSingleCycle()) {
+					
+				}
+				return true;
+			}
 			
-		}
-		setChanged();
-		notifyObservers();
+			@Override
+			protected void done() {
+				setRunning(false);
+			}
+		};
+
+		setRunning(true);
+		worker.execute();
 	}
 
 	@Override
-	public void run(boolean notifyObservers) {
-		// CPU loop
-		while(emulator.runSingleCycle()) {
-			// Notify observers is desired
-			if(notifyObservers) {
+	public void runAndNotify() {
+		// Create new worker (as they are not designed to be reused)
+		worker = new SwingWorker<Boolean, Void>() {
+
+			@Override
+			protected Boolean doInBackground() throws Exception {
+				// CPU loop
+				while(emulator.runSingleCycle()) {
+					publish();
+					setProgress(0);
+					
+					// TODO: Think about adding a delay
+					Thread.sleep(500);
+				}
+				return true;
+			}
+			
+			@Override
+			protected void process(List<Void> chunks) {
 				setChanged();
 				notifyObservers();
 			}
 			
-			// TODO: Think about adding a delay
-		}
-		setChanged();
-		notifyObservers();
+			@Override
+			protected void done() {
+				setRunning(false);
+			}
+		};
+
+		setRunning(true);
+		worker.execute();
 	}
 
 	@Override
 	public boolean runSingleCycle() {
+		setRunning(true);
 		boolean status = emulator.runSingleCycle();
-		setChanged();
-		notifyObservers();
+		setRunning(false);
 		return status;
 	}
 
@@ -84,7 +122,18 @@ public class EmulatorModel extends Observable implements IEmulatorModel {
 	public void toggleBase() {
 		setBase((base == 2) ? 10 : 2);
 	}
+	
+	@Override
+	public boolean isRunning() {
+		return isRunning;
+	}
 
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+		setChanged();
+		notifyObservers();
+	}
+	
 	@Override
 	public Configuration getConfiguration() {
 		return configuration;

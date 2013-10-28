@@ -42,7 +42,7 @@ public class EmulatorControlPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				emulatorModel.run(true);
+				emulatorModel.runAndNotify();
 			}
 		});
 		add(slowMode);
@@ -69,8 +69,27 @@ public class EmulatorControlPanel extends JPanel {
 		add(toggleBase);
 	}
 	
+	private void disableAll() {
+		fastMode.setEnabled(false);
+		slowMode.setEnabled(false);
+		stepMode.setEnabled(false);
+		toggleBase.setEnabled(false);
+	}
+	
+	private void enableAll() {
+		fastMode.setEnabled(true);
+		slowMode.setEnabled(true);
+		stepMode.setEnabled(true);
+		toggleBase.setEnabled(true);
+	}
+	
 	
 	public void refresh() {
-		
+		if(emulatorModel.isRunning()) {
+			disableAll();
+		}
+		else {
+			enableAll();
+		}
 	}
 }

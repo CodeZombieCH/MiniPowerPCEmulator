@@ -8,12 +8,13 @@ import ch.minipowerpc.emulator.IRegisters;
 
 public interface IEmulatorModel {
 	void run();
-	void run(boolean notifyObservers);
+	void runAndNotify();
 	boolean runSingleCycle();
 	
 	int getBase();
 	void setBase(int base);
 	void toggleBase();
+	boolean isRunning();
 	
 	Configuration getConfiguration();
 	IMemory getMemory();
