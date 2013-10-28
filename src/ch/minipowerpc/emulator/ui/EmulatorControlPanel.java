@@ -7,20 +7,18 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import ch.minipowerpc.emulator.IEmulator;
-
 public class EmulatorControlPanel extends JPanel {
 	private static final long serialVersionUID = 5374854286108970105L;
 	
-	private IEmulator emulator;
+	private IEmulatorModel emulatorModel;
 	private JButton fastMode;
 	private JButton slowMode;
 	private JButton stepMode;
 	private JButton toggleBase;
 	
 
-	public EmulatorControlPanel(IEmulator emulator) {
-		this.emulator = emulator;
+	public EmulatorControlPanel(IEmulatorModel emulatorModel) {
+		this.emulatorModel = emulatorModel;
 		
 		initialize();
 	}
@@ -34,7 +32,7 @@ public class EmulatorControlPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				emulator.run();
+				emulatorModel.run();
 			}
 		});
 		add(fastMode);
@@ -44,7 +42,7 @@ public class EmulatorControlPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				emulator.runSingleCycle();
+				emulatorModel.run(true);
 			}
 		});
 		add(slowMode);
@@ -54,13 +52,20 @@ public class EmulatorControlPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				boolean status = emulator.runSingleCycle();
+				boolean status = emulatorModel.runSingleCycle();
 				stepMode.setEnabled(status);
 			}
 		});
 		add(stepMode);
 		
 		toggleBase = new JButton("Toggle base");
+		toggleBase.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				emulatorModel.toggleBase();
+			}
+		});
 		add(toggleBase);
 	}
 	

@@ -2,22 +2,21 @@ package ch.minipowerpc.emulator.ui;
 
 import javax.swing.table.AbstractTableModel;
 
-import ch.minipowerpc.emulator.IEmulator;
+import ch.minipowerpc.emulator.Utilities;
 
 public class DataMemoryTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 7117097916319996431L;
 	
-	private IEmulator emulator;
+	private IEmulatorModel emulatorModel;
 	private short from;
 	private short to;
 	private String[] columnNames = new String[] { "#", "Byte1", "Byte2" };
-	private int base = 10;
 	
 	
-	public DataMemoryTableModel(IEmulator emulator) {
-		this.emulator = emulator;
-		this.from = emulator.getConfiguration().getDataRangeFrom();
-		this.to = emulator.getConfiguration().getDataRangeTo();
+	public DataMemoryTableModel(IEmulatorModel emulatorModel) {
+		this.emulatorModel = emulatorModel;
+		this.from = emulatorModel.getConfiguration().getDataRangeFrom();
+		this.to = emulatorModel.getConfiguration().getDataRangeTo();
 	}
 	
 	public int getColumnCount() {
@@ -38,31 +37,22 @@ public class DataMemoryTableModel extends AbstractTableModel {
     		return (from + row*2);
     	}
     	else if(column == 1) {
-    		return convertValue(emulator.getMemory().getByte((short)(from + row*2)));
+    		return convertValue(emulatorModel.getMemory().getByte((short)(from + row*2)));
     	}
     	else if(column == 2) {
-    		return convertValue(emulator.getMemory().getByte((short)(from + row*2 + 1)));
+    		return convertValue(emulatorModel.getMemory().getByte((short)(from + row*2 + 1)));
     	}
     	
     	return null;
     }
     
     
-    private String convertValue(short value) {
-    	if(base == 2) {
-    		return String.format("%8s", Integer.toString(value, base)).replace(' ', '0');
+    private String convertValue(byte value) {
+    	if(emulatorModel.getBase() == 2) {
+    		return Utilities.toBinary(value);
     	}
     	else {
-    		return Integer.toString(value, base);
+    		return Integer.toString(value, emulatorModel.getBase());
     	}
     }
-    
-
-	public int getBase() {
-		return base;
-	}
-
-	public void setBase(int base) {
-		this.base = base;
-	}
 }

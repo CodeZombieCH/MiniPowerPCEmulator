@@ -7,13 +7,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import ch.minipowerpc.emulator.Emulator;
 import ch.minipowerpc.emulator.Registers.NamedRegister;
 
 public class ControlUnitPanel extends JPanel {
 	private static final long serialVersionUID = -1791783695848045272L;
 
-	private Emulator emulator;
+	private IEmulatorModel emulatorModel;
 	
 	private JNumericTextField programCounterField;
 	private JNumericTextField instructionRegister;
@@ -25,8 +24,8 @@ public class ControlUnitPanel extends JPanel {
 	private JCheckBox carryFlag;
 
 
-	public ControlUnitPanel(Emulator emulator) {
-		this.emulator = emulator;
+	public ControlUnitPanel(IEmulatorModel emulatorModel) {
+		this.emulatorModel = emulatorModel;
 		
 		initialize();
 	}
@@ -75,13 +74,27 @@ public class ControlUnitPanel extends JPanel {
 	}
 	
 	public void refresh() {
-		programCounterField.setValue(emulator.getCpu().getProgramCounter());
-		instructionRegister.setValue(emulator.getCpu().getInstructionRegister());
-		cycleCount.setValue(emulator.getCpu().getCycleCount());
-		accu.setValue(emulator.getCpu().getRegisters().get(NamedRegister.Accu));
-		register1.setValue(emulator.getCpu().getRegisters().get(NamedRegister.R1));
-		register2.setValue(emulator.getCpu().getRegisters().get(NamedRegister.R2));
-		register3.setValue(emulator.getCpu().getRegisters().get(NamedRegister.R3));
-		carryFlag.setSelected(emulator.getCpu().getALU().getCarryFlag());
+		programCounterField.setValue(emulatorModel.getCPU().getProgramCounter());
+		programCounterField.setBase(emulatorModel.getBase());
+		
+		instructionRegister.setValue(emulatorModel.getCPU().getInstructionRegister());
+		instructionRegister.setBase(emulatorModel.getBase());
+		
+		cycleCount.setValue(emulatorModel.getCPU().getCycleCount());
+		cycleCount.setBase(emulatorModel.getBase());
+		
+		accu.setValue(emulatorModel.getRegisters().get(NamedRegister.Accu));
+		accu.setBase(emulatorModel.getBase());
+		
+		register1.setValue(emulatorModel.getRegisters().get(NamedRegister.R1));
+		register1.setBase(emulatorModel.getBase());
+		
+		register2.setValue(emulatorModel.getRegisters().get(NamedRegister.R2));
+		register2.setBase(emulatorModel.getBase());
+		
+		register3.setValue(emulatorModel.getRegisters().get(NamedRegister.R3));
+		register3.setBase(emulatorModel.getBase());
+		
+		carryFlag.setSelected(emulatorModel.getALU().getCarryFlag());
 	}
 }

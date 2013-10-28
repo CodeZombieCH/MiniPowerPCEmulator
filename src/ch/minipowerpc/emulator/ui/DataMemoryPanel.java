@@ -2,27 +2,28 @@ package ch.minipowerpc.emulator.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
-
-import ch.minipowerpc.emulator.IEmulator;
 
 public class DataMemoryPanel extends JPanel {
 	private static final long serialVersionUID = -5412923866092956772L;
 
-	private IEmulator emulator;
+	private IEmulatorModel emulatorModel;
 	
 	private DataMemoryTableModel tableModel;
 	private JTable table;
 	
 
-	public DataMemoryPanel(IEmulator emulator) {
-		this.emulator = emulator;
+	public DataMemoryPanel(IEmulatorModel emulatorModel) {
+		this.emulatorModel = emulatorModel;
 		
 		initialize();
 	}
@@ -36,8 +37,11 @@ public class DataMemoryPanel extends JPanel {
 		title.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(title, BorderLayout.PAGE_START);
 		
-		tableModel = new DataMemoryTableModel(emulator);
+		tableModel = new DataMemoryTableModel(emulatorModel);
 		table = new JTable(tableModel);
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		// Set column size
 		TableColumn column = null;
@@ -47,8 +51,11 @@ public class DataMemoryPanel extends JPanel {
 		        column.setPreferredWidth(50);
 		    } else {
 		        column.setPreferredWidth(100);
+		        column.setCellRenderer(rightRenderer);
 		    }
 		}
+		
+		table.setFont(new Font("Monospaced", table.getFont().getStyle(), table.getFont().getSize()));
 
 		// Wrap table in scroll pane
 		JScrollPane scrollPane = new JScrollPane(table);

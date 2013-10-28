@@ -13,8 +13,7 @@ import ch.minipowerpc.emulator.Emulator;
 public class MainWindow extends JFrame implements Observer {
 	private static final long serialVersionUID = 6829224920697585349L;
 	
-	private Emulator emulator;
-	private int base = 10;
+	private IEmulatorModel model;
 	
 	// UI controls
 	private InstructionMemoryPanel instructionMemoryPanel;
@@ -23,9 +22,9 @@ public class MainWindow extends JFrame implements Observer {
 	private ControlUnitPanel controlUnitPanel;
 	
 
-	public MainWindow(Emulator emulator) {
-		this.emulator = emulator;
-		emulator.addObserver(this);
+	public MainWindow(IEmulatorModel model) {
+		this.model = model;
+		((Observable)model).addObserver(this);
 		
 		initialize();
 	}
@@ -51,10 +50,10 @@ public class MainWindow extends JFrame implements Observer {
 		content.add(programMemory, BorderLayout.CENTER);
 		*/
 		
-		instructionMemoryPanel = new InstructionMemoryPanel(emulator); 
+		instructionMemoryPanel = new InstructionMemoryPanel(model); 
 		content.add(instructionMemoryPanel, BorderLayout.CENTER);
 		
-		dataMemoryPanel = new DataMemoryPanel(emulator); 
+		dataMemoryPanel = new DataMemoryPanel(model); 
 		content.add(dataMemoryPanel, BorderLayout.LINE_END);
 		
 		/*
@@ -74,11 +73,11 @@ public class MainWindow extends JFrame implements Observer {
 		content.add(button, BorderLayout.PAGE_END);
 		*/
 		
-		emulatorControlPanel = new EmulatorControlPanel(emulator);
+		emulatorControlPanel = new EmulatorControlPanel(model);
 		content.add(emulatorControlPanel, BorderLayout.PAGE_END);
 		
 		// Registers and so on
-		controlUnitPanel = new ControlUnitPanel(emulator);
+		controlUnitPanel = new ControlUnitPanel(model);
 		content.add(controlUnitPanel, BorderLayout.LINE_START);
 		
 		update(null, null);
@@ -94,25 +93,13 @@ public class MainWindow extends JFrame implements Observer {
 		controlUnitPanel.refresh();
 	}
 	
-	public int getBase() {
-		return base;
-	}
-
-	public void setBase(int base) {
-		this.base = base;
-		
-		// Notify controls of base change
-		
-	}
-	
-	
 	public static void main(String[] args) {
 		if(args.length != 1) System.exit(-1);
 		
 		Emulator emulator = new Emulator();
 		
 		// HACK: Change configuration for special Aufgabe4
-		if(args[0] == "Aufgabe4") {
+		if(args[0].equals("Aufgabe4")) {
 			emulator.getConfiguration().setInstructionRangeTo((short)199);
 			emulator.getConfiguration().setDataRangeFrom((short)200);
 			emulator.getConfiguration().setDataRangeTo((short)299);
@@ -127,6 +114,7 @@ public class MainWindow extends JFrame implements Observer {
 			System.exit(-2);
 		}
 		
-		new MainWindow(emulator).setVisible(true);
+		MainWindow window = new MainWindow(new EmulatorModel(emulator));
+		window.setVisible(true);
 	}
 }

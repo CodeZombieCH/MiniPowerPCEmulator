@@ -2,6 +2,7 @@ package ch.minipowerpc.emulator.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Rectangle;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,19 +11,17 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableColumn;
 
-import ch.minipowerpc.emulator.IEmulator;
-
 public class InstructionMemoryPanel extends JPanel {
 	private static final long serialVersionUID = 2201979751294303103L;
 
-	private IEmulator emulator;
+	private IEmulatorModel emulatorModel;
 	
 	private InstructionMemoryTableModel tableModel;
 	private JTable table;
 	
 
-	public InstructionMemoryPanel(IEmulator emulator) {
-		this.emulator = emulator;
+	public InstructionMemoryPanel(IEmulatorModel emulator) {
+		this.emulatorModel = emulator;
 		
 		initialize();
 	}
@@ -36,7 +35,7 @@ public class InstructionMemoryPanel extends JPanel {
 		title.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(title, BorderLayout.PAGE_START);
 		
-		tableModel = new InstructionMemoryTableModel(emulator);
+		tableModel = new InstructionMemoryTableModel(emulatorModel);
 		table = new JTable(tableModel);
 		
 		// Set column size
@@ -62,7 +61,12 @@ public class InstructionMemoryPanel extends JPanel {
 	
 	public void refresh() {
 		tableModel.fireTableDataChanged();
-		int row = (emulator.getCpu().getProgramCounter() - emulator.getConfiguration().getInstructionRangeFrom()) / 2;
+		int row = (emulatorModel.getCPU().getProgramCounter() - emulatorModel.getConfiguration().getInstructionRangeFrom()) / 2;
 		table.setRowSelectionInterval(row, row);
+		
+		Rectangle rect = table.getCellRect(row - 5, 0, true);
+		if(rect != null) {
+			table.scrollRectToVisible(rect);
+		}
 	}
 }

@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import ch.minipowerpc.emulator.Utilities;
+
 public class JNumericTextField extends JTextField {
 	private static final long serialVersionUID = 8753804770734609839L;
 	

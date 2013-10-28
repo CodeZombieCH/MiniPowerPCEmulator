@@ -2,18 +2,18 @@ package ch.minipowerpc.emulator.ui;
 
 import javax.swing.table.AbstractTableModel;
 
-import ch.minipowerpc.emulator.IEmulator;
+import ch.minipowerpc.emulator.Utilities;
 
 public class InstructionMemoryTableModel extends AbstractTableModel {	
 	private static final long serialVersionUID = -1473270879765061250L;
 	
-	private IEmulator emulator;
+	private IEmulatorModel emulatorModel;
 	private String[] columnNames = new String[] { "#", "OpCode", "Mnemonic" };
 	private int base = 2;
 	
 	
-	public InstructionMemoryTableModel(IEmulator emulator) {
-		this.emulator = emulator;
+	public InstructionMemoryTableModel(IEmulatorModel emulatorModel) {
+		this.emulatorModel = emulatorModel;
 	}
 	
 	public int getColumnCount() {
@@ -22,8 +22,8 @@ public class InstructionMemoryTableModel extends AbstractTableModel {
 
     public int getRowCount() {
         return (
-        		emulator.getConfiguration().getInstructionRangeTo()
-        		- emulator.getConfiguration().getInstructionRangeFrom()
+        		emulatorModel.getConfiguration().getInstructionRangeTo()
+        		- emulatorModel.getConfiguration().getInstructionRangeFrom()
         		+ 1)
         		/2;
     }
@@ -35,10 +35,10 @@ public class InstructionMemoryTableModel extends AbstractTableModel {
 
     public Object getValueAt(int row, int column) {
     	if(column == 0) {
-    		return (emulator.getConfiguration().getInstructionRangeFrom() + row*2);
+    		return (emulatorModel.getConfiguration().getInstructionRangeFrom() + row*2);
     	}
     	else if(column == 1) {
-    		return convertValue(emulator.getMemory().get16Bit((short)(emulator.getConfiguration().getInstructionRangeFrom() + row*2)));
+    		return convertValue(emulatorModel.getMemory().get16Bit((short)(emulatorModel.getConfiguration().getInstructionRangeFrom() + row*2)));
     	}
     	else if(column == 2) {
     		return "n/a";
@@ -50,7 +50,7 @@ public class InstructionMemoryTableModel extends AbstractTableModel {
     
     private String convertValue(short value) {
     	if(base == 2) {
-    		return String.format("%16s", Integer.toString(value & 0xFFFF, base)).replace(' ', '0');
+    		return Utilities.toBinary(value);
     	}
     	else {
     		return Integer.toString(value, base);

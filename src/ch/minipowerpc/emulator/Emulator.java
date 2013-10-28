@@ -6,9 +6,8 @@ import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Observable;
 
-public class Emulator extends Observable implements IEmulator {
+public class Emulator implements IEmulator {
 	private Configuration configuration;
 	private ICPU cpu;
 	private IMemory memory;
@@ -45,9 +44,6 @@ public class Emulator extends Observable implements IEmulator {
 				throw new Exception("Maximum program size exeeded");
 			}
 		}
-		
-		setChanged();
-		notifyObservers();
 	}
 	
 	@Override
@@ -68,25 +64,17 @@ public class Emulator extends Observable implements IEmulator {
 			
 			memory.set16Bit(address, value);
 		}
-		
-		setChanged();
-		notifyObservers();
 	}
 	
 	@Override
 	public boolean runSingleCycle() {
-		boolean status = cpu.runSingleCycle();
-		setChanged();
-		notifyObservers();
-		return status;
+		return cpu.runSingleCycle();
 	}
 	
 	@Override
 	public void run() {
 		// CPU loop
 		while(cpu.runSingleCycle()) {
-			setChanged();
-			notifyObservers();
 		}
 	}
 
