@@ -14,6 +14,10 @@ public class CPU implements ICPU {
 	 * The instruction register holds the instruction currently being decoded or executed
 	 */
 	private short instructionRegister;
+	/**
+	 * Counts the number of cycles executed
+	 */
+	private short cycleCount = 0;
 	
 
 	public CPU(IMemory memory) {
@@ -25,6 +29,7 @@ public class CPU implements ICPU {
 
 	@Override
 	public boolean runSingleCycle() {
+		cycleCount++;
 		
 		/*
 		1.	Der aktuelle Befehl wird aus der Speicherzelle, auf die der
@@ -70,14 +75,23 @@ public class CPU implements ICPU {
 		programCounter += 2;
 	}
 
+	@Override
 	public short getInstructionRegister() {
 		return instructionRegister;
 	}
-
-	/*
-	 * Only necessary when implementing interactive mode
-	public void setInstructionRegister(short instructionRegister) {
-		this.instructionRegister = instructionRegister;
+	
+	@Override
+	public short getCycleCount() {
+		return cycleCount;
 	}
-	*/
+	
+	@Override
+	public IALU getALU() {
+		return alu;
+	}
+
+	@Override
+	public IRegisters getRegisters() {
+		return registers;
+	}
 }
