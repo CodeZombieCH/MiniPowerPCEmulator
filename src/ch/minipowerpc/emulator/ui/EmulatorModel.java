@@ -5,8 +5,6 @@ import java.util.Observable;
 
 import javax.swing.SwingWorker;
 
-import org.junit.runner.notification.StoppedByUserException;
-
 import ch.minipowerpc.emulator.Configuration;
 import ch.minipowerpc.emulator.IALU;
 import ch.minipowerpc.emulator.ICPU;
