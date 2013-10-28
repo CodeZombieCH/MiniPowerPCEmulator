@@ -5,6 +5,8 @@ import java.util.Observable;
 
 import javax.swing.SwingWorker;
 
+import org.junit.runner.notification.StoppedByUserException;
+
 import ch.minipowerpc.emulator.Configuration;
 import ch.minipowerpc.emulator.IALU;
 import ch.minipowerpc.emulator.ICPU;
@@ -24,6 +26,7 @@ public class EmulatorModel extends Observable implements IEmulatorModel {
 	private boolean isRunning = false;
 	
 	private SwingWorker<Boolean, Void> worker;
+	private long start;
 
 	
 	public EmulatorModel(final IEmulator emulator) {
@@ -56,11 +59,15 @@ public class EmulatorModel extends Observable implements IEmulatorModel {
 			
 			@Override
 			protected void done() {
+				long duration = System.nanoTime() - start;
+				double clockRate = emulator.getCpu().getCycleCount() / (duration *  Math.pow(10, -9));
+				System.out.println(String.format("Duration: %f ns, Clock rate: %.0f Hz", duration *  Math.pow(10, -9), clockRate));
 				setRunning(false);
 			}
 		};
 
 		setRunning(true);
+		start = System.nanoTime();
 		worker.execute();
 	}
 

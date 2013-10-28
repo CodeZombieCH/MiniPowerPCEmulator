@@ -17,7 +17,7 @@ public interface ICPU {
 	void incrementProgramCounter();
 	
 	short getInstructionRegister();
-	short getCycleCount();
+	int getCycleCount();
 	
 	IALU getALU();
 	IRegisters getRegisters();

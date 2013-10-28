@@ -17,7 +17,7 @@ public class CPU implements ICPU {
 	/**
 	 * Counts the number of cycles executed
 	 */
-	private short cycleCount = 0;
+	private int cycleCount = 0;
 	
 
 	public CPU(IMemory memory) {
@@ -81,7 +81,7 @@ public class CPU implements ICPU {
 	}
 	
 	@Override
-	public short getCycleCount() {
+	public int getCycleCount() {
 		return cycleCount;
 	}
 	
