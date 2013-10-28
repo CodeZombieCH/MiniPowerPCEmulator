@@ -10,6 +10,7 @@ public interface IEmulatorModel {
 	void run();
 	void runAndNotify();
 	boolean runSingleCycle();
+	void cancel();
 	
 	int getBase();
 	void setBase(int base);

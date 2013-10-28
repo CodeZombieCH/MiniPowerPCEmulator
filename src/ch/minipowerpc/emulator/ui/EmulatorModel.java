@@ -48,7 +48,7 @@ public class EmulatorModel extends Observable implements IEmulatorModel {
 			@Override
 			protected Boolean doInBackground() throws Exception {
 				// CPU loop
-				while(emulator.runSingleCycle()) {
+				while(!isCancelled() && emulator.runSingleCycle()) {
 					
 				}
 				return true;
@@ -72,12 +72,12 @@ public class EmulatorModel extends Observable implements IEmulatorModel {
 			@Override
 			protected Boolean doInBackground() throws Exception {
 				// CPU loop
-				while(emulator.runSingleCycle()) {
+				while(!isCancelled() && emulator.runSingleCycle()) {
 					publish();
 					setProgress(0);
 					
 					// TODO: Think about adding a delay
-					Thread.sleep(500);
+					Thread.sleep(250);
 				}
 				return true;
 			}
@@ -104,6 +104,12 @@ public class EmulatorModel extends Observable implements IEmulatorModel {
 		boolean status = emulator.runSingleCycle();
 		setRunning(false);
 		return status;
+	}
+	
+	@Override
+	public void cancel() {
+		if(isRunning)
+			worker.cancel(false);
 	}
 
 	@Override

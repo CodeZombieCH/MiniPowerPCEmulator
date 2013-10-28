@@ -14,6 +14,7 @@ public class EmulatorControlPanel extends JPanel {
 	private JButton fastMode;
 	private JButton slowMode;
 	private JButton stepMode;
+	private JButton stop;
 	private JButton toggleBase;
 	
 
@@ -58,6 +59,17 @@ public class EmulatorControlPanel extends JPanel {
 		});
 		add(stepMode);
 		
+		stop = new JButton("Stop");
+		stop.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				stop.setEnabled(false);
+				emulatorModel.cancel();
+			}
+		});
+		add(stop);
+		
 		toggleBase = new JButton("Toggle base");
 		toggleBase.addActionListener(new ActionListener() {
 			
@@ -69,27 +81,15 @@ public class EmulatorControlPanel extends JPanel {
 		add(toggleBase);
 	}
 	
-	private void disableAll() {
-		fastMode.setEnabled(false);
-		slowMode.setEnabled(false);
-		stepMode.setEnabled(false);
-		toggleBase.setEnabled(false);
+	private void setControlMode(boolean isRunning) {
+		fastMode.setEnabled(!isRunning);
+		slowMode.setEnabled(!isRunning);
+		stepMode.setEnabled(!isRunning);
+		toggleBase.setEnabled(!isRunning);
+		stop.setEnabled(isRunning);
 	}
-	
-	private void enableAll() {
-		fastMode.setEnabled(true);
-		slowMode.setEnabled(true);
-		stepMode.setEnabled(true);
-		toggleBase.setEnabled(true);
-	}
-	
-	
+		
 	public void refresh() {
-		if(emulatorModel.isRunning()) {
-			disableAll();
-		}
-		else {
-			enableAll();
-		}
+		setControlMode(emulatorModel.isRunning());
 	}
 }
