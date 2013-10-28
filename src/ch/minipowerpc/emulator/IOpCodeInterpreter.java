@@ -6,4 +6,12 @@ public interface IOpCodeInterpreter {
 	 * @param opCode
 	 */
 	public boolean interpret(short opcode);
+	
+	public short getRegister();
+	
+	public short getAddress();
+	
+	public short getNumber();
+	
+	public String getCommand();
 }
