@@ -81,7 +81,7 @@ public class ControlUnitPanel extends JPanel {
 		instructionRegister.setBase(emulatorModel.getBase());
 		
 		cycleCount.setValue(emulatorModel.getCPU().getCycleCount());
-		cycleCount.setBase(emulatorModel.getBase());
+		//cycleCount.setBase(emulatorModel.getBase());
 		
 		accu.setValue(emulatorModel.getRegisters().get(NamedRegister.Accu));
 		accu.setBase(emulatorModel.getBase());
