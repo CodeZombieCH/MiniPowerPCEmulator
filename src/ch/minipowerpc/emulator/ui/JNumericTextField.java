@@ -11,17 +11,24 @@ public class JNumericTextField extends JTextField {
 	private static final long serialVersionUID = 8753804770734609839L;
 	
 	private int value;
+	private int digits = 16;
 	private int base = 10;
 	
-
+	
 	public JNumericTextField() {
 		this.setEditable(false);
-		this.setPreferredSize(new Dimension(80, 20));
+		this.setPreferredSize(new Dimension(120, 20));
 		this.setHorizontalAlignment(SwingConstants.RIGHT);
 	}
 	
-	public JNumericTextField(int base) {
+	public JNumericTextField(int digits) {
 		this();
+		this.digits = digits;
+	}
+	
+	public JNumericTextField(int digits, int base) {
+		this();
+		this.digits = digits;
 		this.base = base;
 	}
 	
@@ -37,7 +44,11 @@ public class JNumericTextField extends JTextField {
 	
 	@Override
 	public String getText() {
+		if(base == 2 && digits == 16) {
+			return Utilities.toBinary((short)value);
+		}
 		return Integer.toString(value, base);
+		
 	}
 	
 	@Override
