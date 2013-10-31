@@ -51,6 +51,7 @@ public class InstructionMemoryPanel extends JPanel {
 		}
 		
 		table.setFont(new Font("Monospaced", table.getFont().getStyle(), table.getFont().getSize()));
+		table.getTableHeader().setResizingAllowed(false);
 				
 		// Wrap table in scroll pane
 		JScrollPane scrollPane = new JScrollPane(table);

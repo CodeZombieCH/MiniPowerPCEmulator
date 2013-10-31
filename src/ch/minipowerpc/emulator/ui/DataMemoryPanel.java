@@ -49,18 +49,24 @@ public class DataMemoryPanel extends JPanel {
 		    column = table.getColumnModel().getColumn(i);
 		    if (i == 0) {
 		        column.setPreferredWidth(50);
-		    } else {
+		    }
+		    else if(i == 3) {
+		        column.setPreferredWidth(200);
+		        column.setCellRenderer(rightRenderer);
+		    }
+		    else {
 		        column.setPreferredWidth(100);
 		        column.setCellRenderer(rightRenderer);
 		    }
 		}
 		
 		table.setFont(new Font("Monospaced", table.getFont().getStyle(), table.getFont().getSize()));
+		table.getTableHeader().setResizingAllowed(false);
 
 		// Wrap table in scroll pane
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
-		scrollPane.setPreferredSize(new Dimension(200, 0));
+		scrollPane.setPreferredSize(new Dimension(300, 0));
 		
 		add(scrollPane, BorderLayout.CENTER);
 	}
