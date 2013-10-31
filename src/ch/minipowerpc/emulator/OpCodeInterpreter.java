@@ -59,7 +59,7 @@ public class OpCodeInterpreter implements IOpCodeInterpreter {
 			register = (short)(opcode & 0b0000110000000000);
 			register >>= 10;
 			address = (short)(opcode & 0b0000001111111111);
-			new LWDD(alu, NamedRegister.values()[register], address);
+			return new LWDD(alu, NamedRegister.values()[register], address);
 		}
 		
 		// SWDD Rnr, #Adr
@@ -67,7 +67,7 @@ public class OpCodeInterpreter implements IOpCodeInterpreter {
 			register = (short)(opcode & 0b0000110000000000);
 			register >>= 10;
 			address = (short)(opcode & 0b0000001111111111);
-			new SWDD(alu, NamedRegister.values()[register], address);
+			return new SWDD(alu, NamedRegister.values()[register], address);
 		}
 		
 		// SRA
