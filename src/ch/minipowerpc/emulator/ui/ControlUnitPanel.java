@@ -70,6 +70,7 @@ public class ControlUnitPanel extends JPanel {
 		
 		add(new JLabel("Status register"));
 		carryFlag = new JCheckBox("Carry flag");
+		carryFlag.setEnabled(false);
 		add(carryFlag);
 	}
 	
