@@ -1,6 +1,8 @@
 package ch.minipowerpc.emulator.ui;
 
 import java.awt.GridLayout;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -21,6 +23,7 @@ public class ControlUnitPanel extends JPanel {
 	private JNumericTextField register1;
 	private JNumericTextField register2;
 	private JNumericTextField register3;
+	private JNumericTextField result;
 	private JCheckBox carryFlag;
 
 
@@ -68,6 +71,10 @@ public class ControlUnitPanel extends JPanel {
 		register3 = new JNumericTextField();
 		add(register3);
 		
+		add(new JLabel("Result (#504-#507)"));
+		result = new JNumericTextField(32);
+		add(result);
+		
 		add(new JLabel("Status register"));
 		carryFlag = new JCheckBox("Carry flag");
 		carryFlag.setEnabled(false);
@@ -95,6 +102,17 @@ public class ControlUnitPanel extends JPanel {
 		
 		register3.setValue(emulatorModel.getRegisters().get(NamedRegister.R3));
 		register3.setBase(emulatorModel.getBase());
+		
+		
+		ByteBuffer bb = ByteBuffer.allocate(4);
+		bb.order(ByteOrder.BIG_ENDIAN);
+		bb.put(emulatorModel.getMemory().getByte((short)504));
+		bb.put(emulatorModel.getMemory().getByte((short)505));
+		bb.put(emulatorModel.getMemory().getByte((short)506));
+		bb.put(emulatorModel.getMemory().getByte((short)507));
+		bb.rewind();
+		result.setValue(bb.getInt());
+		result.setBase(emulatorModel.getBase());
 		
 		carryFlag.setSelected(emulatorModel.getALU().getCarryFlag());
 	}
