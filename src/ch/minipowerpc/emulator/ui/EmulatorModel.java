@@ -81,7 +81,7 @@ public class EmulatorModel extends Observable implements IEmulatorModel {
 					publish();
 					setProgress(0);
 					
-					// TODO: Think about adding a delay
+					// Needs a delay in order to work, no idea why
 					Thread.sleep(250);
 				}
 				return true;

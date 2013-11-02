@@ -1,7 +1,5 @@
 package ch.minipowerpc.emulator;
 
-import java.io.IOException;
-
 public class Run {
 
 	public static void main(String[] args) {
