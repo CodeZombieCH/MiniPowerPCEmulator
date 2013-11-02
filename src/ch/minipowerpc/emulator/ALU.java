@@ -33,55 +33,43 @@ public class ALU implements IALU {
 	public void ADD(NamedRegister register) {
 		short i = registers.get(NamedRegister.Accu);
 		short j = registers.get(register);
-		if (i+j < 32767 && i+j > -32768){
-			registers.set(NamedRegister.Accu, (short)(i+j));
+		if (i+j < 32767 && i+j > -32768)
 			carryflag = false;
-		}
-		else{
-			registers.set(NamedRegister.Accu, (short)32767);
+		else
 			carryflag = true;
-		}
+		registers.set(NamedRegister.Accu, (short)(i+j));
 	}
 
 	@Override
 	public void ADDD(short number) {
 		short i = registers.get(NamedRegister.Accu);
 		short j = number;
-		if (i+j < 32767 && i+j > -32768){
-			registers.set(NamedRegister.Accu, (short)(i+j));
+		if (i+j < 32767 && i+j > -32768)
 			carryflag = false;
-		}
-		else{
-			registers.set(NamedRegister.Accu, (short)32767);
+		else
 			carryflag = true;
-		}
+		registers.set(NamedRegister.Accu, (short)(i+j));
 	}
 
 	@Override
 	public void INC() {
 		short i = registers.get(NamedRegister.Accu);
-		if (i == 32767) { 
+		if (i == 32767)
 			carryflag = true;
-			i = -32768;
-		}
-		else {
+		else
 			carryflag = false;
-			i++;
-		}
+		i++;
 		registers.set(NamedRegister.Accu, i);
 	}
 
 	@Override
 	public void DEC() {
 		short i = registers.get(NamedRegister.Accu);
-		if (i == -32768) { 
+		if (i == -32768)
 			carryflag = true;
-			i = 32767;
-		}
-		else {
+		else
 			carryflag = false;
-			i--;
-		}
+		i--;
 		registers.set(NamedRegister.Accu, i);
 	}
 
