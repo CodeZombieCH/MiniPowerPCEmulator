@@ -5,12 +5,14 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.minipowerpc.emulator.Configuration;
+
 public class CompilerTest {
 	private Compiler instance;
 
 	@Before
 	public void setUp() throws CompilerException {
-		instance = new Compiler();
+		instance = new Compiler(new Configuration());
 	}
 
 	@Test

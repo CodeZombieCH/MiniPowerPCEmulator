@@ -8,24 +8,31 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ch.minipowerpc.emulator.Configuration;
 import ch.minipowerpc.emulator.Utilities;
 
 public class Compiler {
 	private final Pattern operationPattern = Pattern.compile("^(\\w+)(.*?)(//.+)?");
+	private final Pattern labelPattern = Pattern.compile("^(\\w+):(\\s*?)(//.+)?");
 	private final Pattern registerPattern = Pattern.compile("^(R\\d|Accu)$");
-	private final Pattern addressPattern = Pattern.compile("^#(\\d+)$");
+	private final Pattern addressPattern = Pattern.compile("^(#(\\d+)|\\w+)$");
 	private final Pattern memoryPattern = Pattern.compile("^@(\\d+)\\s(-?\\d+)");
 	
+	private Configuration config;
+	private HashMap<String, Short> labels = new HashMap<String, Short>();
 	
-	public Compiler() {
-		
+	
+	public Compiler(Configuration config) {
+		this.config = config;
 	}
 	
 	
 	public void compile(String fileName) throws CompilerException, FileNotFoundException, IOException {
+		System.out.println(fileName);
 		fileName = "programs/" + fileName;
 		compile(fileName + ".asm", fileName + ".bin", fileName + ".mem");
 	}
@@ -44,6 +51,7 @@ public class Compiler {
 	
 	        String line;
 	        int lineNumber = 0;
+	        short addressNumber = (short)config.getInstructionRangeFrom();
 	        while((line = reader.readLine()) != null) {
 	        	lineNumber++;
 	        	
@@ -51,17 +59,30 @@ public class Compiler {
 	        	context.setLine(line);
 	        	context.setLineNumber(lineNumber);
 	        	
+	        	Matcher matcher;
+	        	
 	        	// Skip comments
 	        	if(line.isEmpty() || line.startsWith("#")) {
 	        		continue;
 	        	}
+	        	// Parse memory instructions
 	        	else if(line.startsWith("@")) {
 	        		byte[] memory = parseMemory(line, context);
 	        		Utilities.printMemoryInstruction(memory);
 	        		
 	        		outMem.write(memory);
 	        	}
+	        	// Parse labels
+	        	else if((matcher = labelPattern.matcher(line)).matches()) {
+	        		String label = matcher.group(1);
+	        		if(labels.containsKey(label))
+	        			throw new CompilerException("Label defined twice", context.getLineNumber(), context.getLine(), context.getFileName());
+	        		System.out.println(label + ": " + addressNumber);
+	        		labels.put(label, (short)addressNumber);
+	        	}
 	        	else {
+	        		
+	        		
 		        	short opcode = parse(line, context);
 		        	System.out.println(String.format("%04X", opcode & 0xFFFF));
 		        	
@@ -70,6 +91,9 @@ public class Compiler {
 		    		bb.putShort(opcode);
 
 		    		outBin.write(bb.array());
+		    		
+		    		// Actual opcode line, so increment address
+		    		addressNumber += 2;
 	        	}
 	        }
 	        
@@ -241,7 +265,18 @@ public class Compiler {
 			throw new CompilerException("Syntax error", context.getLineNumber(), context.getLine(), context.getFileName());
 		}
 		
-		return Integer.parseInt(matcher.group(1));
+		if(matcher.group(1).startsWith("#")) {
+			// Numeric address
+			return Integer.parseInt(matcher.group(2));
+		}
+		else {
+			String label = matcher.group(1);
+			Short address = labels.get(label);
+			if(address == null)
+				throw new CompilerException("Undefined label \"" + label + "\"", context.getLineNumber(), context.getLine(), context.getFileName());
+			
+			return address;
+		}
 	}
 	
 	private byte[] parseMemory(String line, CompilerContext context) throws CompilerException {
@@ -268,7 +303,7 @@ public class Compiler {
 		}
 		
 		try {
-			Compiler compiler = new Compiler();
+			Compiler compiler = new Compiler(new Configuration());
 			compiler.compile(args[0]);
 			
 			System.out.println("Compilation succeeded!");
