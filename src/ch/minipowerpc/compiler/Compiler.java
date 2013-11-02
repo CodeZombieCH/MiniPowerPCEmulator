@@ -42,24 +42,25 @@ public class Compiler {
 		BufferedOutputStream outBin = null;
 		BufferedOutputStream outMem = null;
 		
+		parseLabels(sourcePath);
+		
 		CompilerContext context = new CompilerContext(sourcePath);
 		
 		try {
 			reader = new BufferedReader(new FileReader(sourcePath));
 			outBin = new BufferedOutputStream(new FileOutputStream(binPath));
 			outMem = new BufferedOutputStream(new FileOutputStream(memPath));
-	
-	        String line;
+			
+			String line;
 	        int lineNumber = 0;
-	        short addressNumber = (short)config.getInstructionRangeFrom();
+			
+			lineNumber = 0;
 	        while((line = reader.readLine()) != null) {
 	        	lineNumber++;
 	        	
 	        	// Set context
 	        	context.setLine(line);
 	        	context.setLineNumber(lineNumber);
-	        	
-	        	Matcher matcher;
 	        	
 	        	// Skip comments
 	        	if(line.isEmpty() || line.startsWith("#")) {
@@ -73,12 +74,15 @@ public class Compiler {
 	        		outMem.write(memory);
 	        	}
 	        	// Parse labels
-	        	else if((matcher = labelPattern.matcher(line)).matches()) {
+	        	else if(labelPattern.matcher(line).matches()) {
+	        		continue;
+	        		/*
 	        		String label = matcher.group(1);
 	        		if(labels.containsKey(label))
 	        			throw new CompilerException("Label defined twice", context.getLineNumber(), context.getLine(), context.getFileName());
 	        		System.out.println(label + ": " + addressNumber);
 	        		labels.put(label, (short)addressNumber);
+	        		*/
 	        	}
 	        	else {
 	        		
@@ -91,9 +95,6 @@ public class Compiler {
 		    		bb.putShort(opcode);
 
 		    		outBin.write(bb.array());
-		    		
-		    		// Actual opcode line, so increment address
-		    		addressNumber += 2;
 	        	}
 	        }
 	        
@@ -104,6 +105,63 @@ public class Compiler {
 			if(reader != null) reader.close();
 			if(outBin != null) outBin.close();
 			if(outMem != null) outMem.close();
+		}
+	}
+	
+	/**
+	 * Parses the assembler code, checks for labels and stores the memory address in a hashmap.
+	 * @param sourcePath
+	 * @throws CompilerException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	private void parseLabels(String sourcePath) throws CompilerException, FileNotFoundException, IOException {
+		BufferedReader reader = null;
+		CompilerContext context = new CompilerContext(sourcePath);
+		
+		try {
+			reader = new BufferedReader(new FileReader(sourcePath));
+			
+			String line;
+	        int lineNumber = 0;
+			short addressNumber = (short)config.getInstructionRangeFrom();
+			
+			// Read labels
+			while((line = reader.readLine()) != null) {
+				lineNumber++;
+				
+	        	// Set context
+	        	context.setLine(line);
+	        	context.setLineNumber(lineNumber);
+	        	
+	        	System.out.println(line);
+	        	
+	        	Matcher matcher = labelPattern.matcher(line);
+	        	
+	        	// Skip comments
+	        	if(line.isEmpty() || line.startsWith("#")) {
+	        		continue;
+	        	}
+	        	// Parse memory instructions
+	        	else if(line.startsWith("@")) {
+	        		continue;
+	        	}
+	        	// Parse labels
+	        	else if(matcher.matches()) {
+	        		String label = matcher.group(1);
+	        		if(labels.containsKey(label))
+	        			throw new CompilerException("Label defined twice", context.getLineNumber(), context.getLine(), context.getFileName());
+	        		System.out.println(label + ": " + addressNumber);
+	        		labels.put(label, (short)addressNumber);
+	        	}
+	        	else {
+		    		// Actual opcode line, so increment address
+		    		addressNumber += 2;
+	        	}
+			}
+		}
+		finally {
+			if(reader != null) reader.close();
 		}
 	}
 
