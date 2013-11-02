@@ -1,5 +1,5 @@
-@500 3
-@502 32767
+@500 125
+@502 8000
 
 CLR R0			//Akku = 0
 INC				//Akku = 1
@@ -14,21 +14,53 @@ BZD LEND		//while Number1 > 0 else Jump to End
 AND R3			//Bitmask Number1 & 1
 BZD LJPM1		//Jump to
 LWDD R0, #506	//Akku = Total
+SWDD R0, #518	//Addr 518 = Total
 LWDD R1, #502	//R1 = Number2
-ADD R1			//Akku = Akku + Number2 (Check carry flag)
+ADD R1			//Akku = Akku + Number2
 SWDD R0, #506	//Addr 506 = Total
+
 LWDD R0, #502	//Akku = Number2
 AND R2			//Bitmask pos/neg
-BZD LPOS		//Jump if pos
+BZD LPOS1		//Jump if pos
 LWDD R0, #502	//Akku = Number2
 DEC				//Akku -1
 NOT				//Invert Akku
+SWDD R3, #520
 BD LJMP2		//Jump down
-LPOS:
+LPOS1:
 LWDD R0, #502	//Akku = Number2
 LJMP2:
-LWDD R1, #506	//R1 = Total
+SWDD R0, #516	//Addr 516 = positive Number2
+
+LWDD R0, #506	//Akku = Total
+AND R2			//Bitmask pos/neg
+BZD LPOS2		//Jump if pos
+LWDD R0, #506	//Akku = Total
+DEC				//Akku -1
+NOT				//Invert Akku
+SWDD R3, #522
+BD LJMP3		//Jump down
+LPOS2:
+LWDD R0, #506	//Akku = Total
+LJMP3:
+SWDD R0, #518
+
+LWDD R0, #520
+LWDD R1, #522
+AND R1
+BNZD LONE
+
+LWDD R1, #516	//R1 = positive Number2
+LWDD R0, #518
+BD LADD
+
+LONE:
+ADDD #32767
+BD LADDD
+
+LADD:
 ADD R1			//Akku = Akku + Total
+LADDD:
 LWDD R0, #504	//Akku = Result overflow
 LWDD R1, #514	//R1 = Overflow Number2
 BCD LNOR		//Overflow with number
