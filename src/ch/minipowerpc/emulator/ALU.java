@@ -98,15 +98,9 @@ public class ALU implements IALU {
 	public void SLA() {
 		short i = registers.get(NamedRegister.Accu);
 		if ((short)(i & 0b0100000000000000) == (short)0b0100000000000000)
-			if ((short)(i & 0b1000000000000000) == (short)0b1000000000000000)
-				carryflag = false;
-			else
-				carryflag = true;
+			carryflag = true;
 		else
-			if ((short)(i & 0b1000000000000000) == (short)0b1000000000000000)
-				carryflag = true;
-			else
-				carryflag = false;
+			carryflag = false;
 		if (i < 0){
 			i <<= 1;
 			i |= (1 << 15);
