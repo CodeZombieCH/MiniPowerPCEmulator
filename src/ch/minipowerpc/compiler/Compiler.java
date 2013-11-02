@@ -195,9 +195,13 @@ public class Compiler {
 					throw new CompilerException("Syntax error", context.getLineNumber(), context.getLine(), context.getFileName());
 				register = getRegister(arguments[0], context);
 				System.out.println("ADD R" + register);
-				return (short)(0b0000_00_11_10000000 | ((register & 0b11) << 10));				
+				return (short)(0b0000_00_11_10000000 | ((register & 0b11) << 10));
 			case "ADDD":
-				throw new UnsupportedOperationException("Not yet implemented");
+				if(arguments.length != 1)
+					throw new CompilerException("Syntax error", context.getLineNumber(), context.getLine(), context.getFileName());
+				int number = getAddress(arguments[0], context);
+				System.out.println("ADDD #" + number);
+				return (short)(0b10000000_00000000 | (number & 0b01111111_11111111));
 			case "INC":
 				System.out.println("INC");
 				return 0b0000000100000000;
