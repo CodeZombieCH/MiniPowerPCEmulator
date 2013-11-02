@@ -15,8 +15,10 @@ LWDD R0, #502	// load input #2
 AND R2			// binary AND Accu and R2 (is inp. negative?)
 BZD inptwoisev
 LWDD R1, #510	// load former status to R1
-AND R1			// is result pos (0) or negative 100..)
-SWDD R1, #510	// save result to 510
+AND R1		    // is result pos (0) or negative 100..)
+NOT
+AND R2			
+SWDD R0, #510	// save result to 510
 LWDD R0, #502	// load negative input
 DEC
 NOT
