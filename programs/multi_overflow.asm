@@ -1,6 +1,4 @@
 CLR R0			//Akku = 0
-SWDD R0, 504	//Addr 504 = 0
-SWDD R0, 506	//Addr 506 = 0
 INC				//Akku = 1
 SWDD R0, 508	//Addr 508 = 1
 LWDD R3, 508	//R3 = 1
