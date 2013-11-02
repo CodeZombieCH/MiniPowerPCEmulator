@@ -36,6 +36,6 @@ public class CompilerException extends Exception {
 	@Override
 	public String getMessage() {
 		// TODO Auto-generated method stub
-		return String.format("%s on line %d: \"%s\" in file %s", getMessage(), line, operation, fileName);
+		return String.format("%s on line %d: \"%s\" in file %s", super.getMessage(), line, operation, fileName);
 	}
 }
