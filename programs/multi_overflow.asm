@@ -1,3 +1,6 @@
+@500 3
+@502 32767
+
 CLR R0			//Akku = 0
 INC				//Akku = 1
 SWDD R0, #508	//Addr 508 = 1
@@ -14,12 +17,24 @@ LWDD R0, #506	//Akku = Total
 LWDD R1, #502	//R1 = Number2
 ADD R1			//Akku = Akku + Number2 (Check carry flag)
 SWDD R0, #506	//Addr 506 = Total
+LWDD R0, #502	//Akku = Number2
+AND R2			//Bitmask pos/neg
+BZD LPOS		//Jump if pos
+LWDD R0, #502	//Akku = Number2
+DEC				//Akku -1
+NOT				//Invert Akku
+BD LJMP2		//Jump down
+LPOS:
+LWDD R0, #502	//Akku = Number2
+LJMP2:
+LWDD R1, #506	//R1 = Total
+ADD R1			//Akku = Akku + Total
 LWDD R0, #504	//Akku = Result overflow
 LWDD R1, #514	//R1 = Overflow Number2
 BCD LNOR		//Overflow with number
 ADD R1			//Add Overflow Number2
 BCD LEND		//Overflow with number
-BD LNRD		//Jump to Save
+BD LNRD			//Jump to Save
 LNOR:
 ADD R1			//Add Overflow Number2
 BCD LEND		//Overflow with number
@@ -39,7 +54,7 @@ LWDD R0, #514	//Get overflow Number2
 BCD LNO2		//Overflow
 SLA				//Double overflow Number
 BCD LEND		//Overflow with number
-BD LN2D		//Jump to Save
+BD LN2D			//Jump to Save
 LNO2:
 SLA				//Double overflow Number
 BCD LEND		//Overflow with number
