@@ -33,9 +33,17 @@ public class ALU implements IALU {
 	public void ADD(NamedRegister register) {
 		short i = registers.get(NamedRegister.Accu);
 		short j = registers.get(register);
-		if (i+j <= 32767 && i+j >= -32768)
-			carryflag = false;
-		else
+		carryflag = false;
+		if (((short)(i & 0b1000000000000000) == (short)0b1000000000000000) &&
+			((short)(j & 0b1000000000000000) == (short)0b0) && 
+			(Math.abs(i)+j > 32767) && (i+j >= 0))
+			carryflag = true;
+		if (((short)(j & 0b1000000000000000) == (short)0b1000000000000000) &&
+			((short)(i & 0b1000000000000000) == (short)0b0) && 
+			(Math.abs(j)+i > 32767) && (i+j >= 0))
+			carryflag = true;
+		if (((short)(i & 0b1000000000000000) == (short)0b1000000000000000) &&
+			((short)(j & 0b1000000000000000) == (short)0b1000000000000000))
 			carryflag = true;
 		registers.set(NamedRegister.Accu, (short)(i+j));
 	}
