@@ -14,6 +14,22 @@ public class CompilerTest {
 	public void setUp() throws CompilerException {
 		instance = new Compiler(new Configuration());
 	}
+	
+	@Test
+	public void testParseADDD() throws CompilerException {
+		String input;
+		short expected, actual;
+
+		input = "ADDD #1";
+		expected = ~0b01111111_11111111 | 0b00000000_00000001;
+		actual = instance.parse(input);
+		assertEquals(expected, actual);
+
+		input = "ADDD #-1";
+		expected = ~0b01111111_11111111 | 0xFFFF_FFFF;
+		actual = instance.parse(input);
+		assertEquals(expected, actual);
+	}
 
 	@Test
 	public void testParseLWDD() throws CompilerException {
