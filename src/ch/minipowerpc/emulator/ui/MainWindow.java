@@ -82,7 +82,7 @@ public class MainWindow extends JFrame implements Observer {
 		
 		update(null, null);
 		
-		setSize(900, 500);
+		setSize(950, 500);
 	}
 
 	@Override
