@@ -36,11 +36,11 @@ public class ALU implements IALU {
 		carryflag = false;
 		if (((short)(i & 0b1000000000000000) == (short)0b1000000000000000) &&
 			((short)(j & 0b1000000000000000) == (short)0b0) && 
-			(Math.abs(i)+j > 32767) && (i+j >= 0))
+			(i+j >= 0))
 			carryflag = true;
 		if (((short)(j & 0b1000000000000000) == (short)0b1000000000000000) &&
 			((short)(i & 0b1000000000000000) == (short)0b0) && 
-			(Math.abs(j)+i > 32767) && (i+j >= 0))
+			(i+j >= 0))
 			carryflag = true;
 		if (((short)(i & 0b1000000000000000) == (short)0b1000000000000000) &&
 			((short)(j & 0b1000000000000000) == (short)0b1000000000000000))
