@@ -25,6 +25,7 @@ public class ControlUnitPanel extends JPanel {
 	private JNumericTextField register3;
 	private JNumericTextField result;
 	private JCheckBox carryFlag;
+	private JCheckBox overflowFlag;
 
 
 	public ControlUnitPanel(IEmulatorModel emulatorModel) {
@@ -79,6 +80,11 @@ public class ControlUnitPanel extends JPanel {
 		carryFlag = new JCheckBox("Carry flag");
 		carryFlag.setEnabled(false);
 		add(carryFlag);
+		
+		add(new JLabel(""));
+		overflowFlag = new JCheckBox("Overflow flag");
+		overflowFlag.setEnabled(false);
+		add(overflowFlag);
 	}
 	
 	public void refresh() {
@@ -115,5 +121,6 @@ public class ControlUnitPanel extends JPanel {
 		result.setBase(emulatorModel.getBase());
 		
 		carryFlag.setSelected(emulatorModel.getALU().getCarryFlag());
+		overflowFlag.setSelected(emulatorModel.getALU().getOverflowFlag());
 	}
 }
