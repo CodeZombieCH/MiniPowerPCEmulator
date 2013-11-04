@@ -14,6 +14,4 @@ public interface IOpCodeInterpreter {
 	public short getAddress();
 	
 	public short getNumber();
-	
-	public String getCommand();
 }
