@@ -94,7 +94,7 @@ public class ALUTest {
 		registers.set(NamedRegister.R1, (short)-456);
 		alu.ADD(NamedRegister.R1);
 		assertEquals((short)-579, registers.get(NamedRegister.Accu));
-		assertEquals((false), alu.getCarryFlag());
+		assertEquals((true), alu.getCarryFlag());
 		registers.set(NamedRegister.Accu, (short)0b1111111111111111); // Negative short overload
 		registers.set(NamedRegister.R1, (short)0b1000000000000000); 
 		alu.ADD(NamedRegister.R1);
@@ -103,8 +103,23 @@ public class ALUTest {
 		registers.set(NamedRegister.Accu, (short)0b1); // Positive short overload
 		registers.set(NamedRegister.R1, (short)0b0111111111111111); 
 		alu.ADD(NamedRegister.R1);
-		assertEquals((short)32767, registers.get(NamedRegister.Accu));
+		assertEquals((short)-32768, registers.get(NamedRegister.Accu));
+		assertEquals((false), alu.getCarryFlag());
+		registers.set(NamedRegister.Accu, (short)30000);
+		registers.set(NamedRegister.R1, (short)-20000);
+		alu.ADD(NamedRegister.R1);
+		assertEquals((short)10000, registers.get(NamedRegister.Accu));
 		assertEquals((true), alu.getCarryFlag());
+		registers.set(NamedRegister.Accu, (short)-20000);
+		registers.set(NamedRegister.R1, (short)30000);
+		alu.ADD(NamedRegister.R1);
+		assertEquals((short)10000, registers.get(NamedRegister.Accu));
+		assertEquals((true), alu.getCarryFlag());
+		registers.set(NamedRegister.Accu, (short)20000);
+		registers.set(NamedRegister.R1, (short)-30000);
+		alu.ADD(NamedRegister.R1);
+		assertEquals((short)-10000, registers.get(NamedRegister.Accu));
+		assertEquals((false), alu.getCarryFlag());
 	}
 	
 	
@@ -136,7 +151,7 @@ public class ALUTest {
 		assertEquals((true), alu.getCarryFlag()); 
 		registers.set(NamedRegister.Accu, (short)0b0111111111111111); // Positive short overload
 		alu.ADDD((short)1);
-		assertEquals((short)32767, registers.get(NamedRegister.Accu));
+		assertEquals((short)-32768, registers.get(NamedRegister.Accu));
 		assertEquals((true), alu.getCarryFlag());
 	}
 	

@@ -9,7 +9,6 @@ public class OpCodeInterpreter implements IOpCodeInterpreter {
 	private short register;
 	private short address;
 	private short number;
-	private String command;
 
 	public OpCodeInterpreter(IALU alu) {
 		this.alu = alu;
@@ -185,9 +184,5 @@ public class OpCodeInterpreter implements IOpCodeInterpreter {
 	
 	public short getNumber(){
 		return number;
-	}
-	
-	public String getCommand(){
-		return command;
 	}
 }
